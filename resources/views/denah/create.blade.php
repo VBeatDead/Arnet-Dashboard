@@ -12,12 +12,19 @@
             <div class="card-body">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+                    <input type="text" class="form-control" id="name" name="name" required value="{{ old('name') }}">
+                    @error('name')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="image" class="form-label">Image</label>
-                    <input class="form-control" type="file" id="image" name="image" required>
+                    <label for="vsd_file" class="form-label">VSD File</label>
+                    <input class="form-control" type="file" id="vsd_file" name="vsd_file" required accept=".vsd">
+                    @error('vsd_file')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
+                
                 <div class="text-center">
                     <img src="./img/geo-alt.svg" id="preview" alt="Placeholder Image" width="500" class="img-thumbnail mb-3">
                 </div>
@@ -38,7 +45,7 @@
 </main>
 
 <script>
-    document.getElementById('image').addEventListener('change', function(event) {
+    document.getElementById('vsd_file').addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();

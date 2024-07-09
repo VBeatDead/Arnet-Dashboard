@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class DenahSto extends Model
 {
-    use HasFactory;
-
     protected $table = 'denah_sto';
 
     protected $fillable = [

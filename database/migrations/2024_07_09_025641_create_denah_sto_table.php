@@ -10,8 +10,8 @@ class CreateDenahStoTable extends Migration
     {
         Schema::create('denah_sto', function (Blueprint $table) {
             $table->id();
-            $table->string('lokasi_sto'); // Menambahkan kolom lokasi_sto
-            $table->binary('denah');
+            $table->string('lokasi_sto');
+            $table->binary('denah')->nullable();
             $table->timestamps();
         });
     }

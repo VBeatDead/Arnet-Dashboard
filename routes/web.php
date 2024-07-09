@@ -8,7 +8,7 @@ use App\Http\Controllers\DenahStoController;
 
 Route::get('/login', [UserController::class, 'index'])->name('login');
 Route::get('/register', [UserController::class, 'register'])->name('register');
-Route::get('/denah', [DenahStoController::class, 'index'])->name('index');
+Route::get('/denah', [DenahStoController::class, 'index'])->name('denah.index');
 Route::get('/form', [MapController::class, 'create'])->name('formdenah');
 Route::get('/surat', [surat::class, 'index'])->name('surat');
 
