@@ -34,7 +34,7 @@
                                         <img src="data:image/jpeg;base64,{{ base64_encode($denah->denah) }}" alt="Denah" style="max-width: 100px; max-height: 100px;">
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-danger">Delete</button>
+                                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
