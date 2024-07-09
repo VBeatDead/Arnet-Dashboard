@@ -1,4 +1,3 @@
-<!-- resources/views/dashboard.blade.php -->
 @extends('layouts.app')
 
 @section('title', 'Denah STO')
@@ -26,6 +25,20 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            @foreach ($denahs as $index => $denah)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $denah->lokasi_sto }}</td>
+                                    <td class="text-center">
+                                        <img src="data:image/jpeg;base64,{{ base64_encode($denah->denah) }}" alt="Denah" style="max-width: 100px; max-height: 100px;">
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -33,8 +46,5 @@
     </div>
 </div>
 <!-- END OF TABLE -->
-
-
-
 
 @endsection
