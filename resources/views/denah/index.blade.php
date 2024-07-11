@@ -80,8 +80,12 @@
                 <p>Are you sure you want to delete this item?</p>
             </div>
 
-            <div class="modal-footer">                
-                <a href="javascript:void(0)" class="btn btn-danger">Delete</a>
+            <div class="modal-footer">     
+                <form id="deleteForm" method="POST" action="">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -91,7 +95,10 @@
 
 @endsection
 <script>
-    const handleDelete = (id) => document.querySelector('#deleteModal .modal-footer a').href = 'denah/d' + id;
+    const handleDelete = (id) => {
+        const form = document.getElementById('deleteForm');
+        form.action = `/denah/${id}`;
+    };
 
     function showImage(imageUrl) {
         document.getElementById('overlayImage').src = imageUrl;

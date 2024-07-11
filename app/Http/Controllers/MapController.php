@@ -143,7 +143,7 @@ class MapController extends Controller
     public function destroy($id)
     {
         // Find the item by ID
-        dd($id);
+        // dd($id);
         $denah = Map::find($id);
         // Delete the item
         $denah->delete();
