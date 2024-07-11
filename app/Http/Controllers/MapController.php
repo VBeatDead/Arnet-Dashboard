@@ -84,6 +84,7 @@ class MapController extends Controller
     public function edit(Map $denah)
     {
         if (session()->has('user_id')) {
+            $denah = Map::find($denah->id);
             return view('denah.edit', ['denah' => $denah]);
         } else {
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
