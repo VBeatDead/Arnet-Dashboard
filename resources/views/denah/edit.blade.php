@@ -27,7 +27,7 @@
                                 style="max-width: 100%; max-height: 100%">
                         </a>
                     @else
-                        <img src="path/to/placeholder-image.jpg" alt="No image available" class="img-fluid"
+                        <img src="public\img\403-error-forbidden-animate.svg" alt="No image available" class="img-fluid"
                             style="max-width: 100%; max-height: 100%">
                     @endif
                 </div>

@@ -26,33 +26,40 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                        <tbody>
-                        @foreach ($denah as $d)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $d->name }}</td>
-                            <td>
-                                @php
-                                    $convertedImageUrl = $d->converted_image ? asset($d->converted_image) : null;
-                                @endphp
-                                @if($convertedImageUrl)
-                                    <a href="javascript:void(0);" onclick="showImage('{{ $convertedImageUrl }}')">
-                                        <img src="{{ $convertedImageUrl }}" alt="{{ $d->name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
-                                    </a>
-                                @else
-                                    <img src="path/to/placeholder-image.jpg" alt="No image available" class="img-fluid" style="max-width: 100px; max-height: 100px;">
-                                @endif
-                            </td>
-                            <td class="text-center">
-                                <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <button type="button" class="btn btn-danger h-20" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="handleDelete({{ $d->id }})">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
+                            <tbody>
+                                @foreach ($denah as $d)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $d->name }}</td>
+                                        <td>
+                                            @php
+                                                $convertedImageUrl = $d->converted_image
+                                                    ? asset($d->converted_image)
+                                                    : null;
+                                            @endphp
+                                            @if ($convertedImageUrl)
+                                                <a href="javascript:void(0);"
+                                                    onclick="showImage('{{ $convertedImageUrl }}')">
+                                                    <img src="{{ $convertedImageUrl }}" alt="{{ $d->name }}"
+                                                        class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                                                </a>
+                                            @else
+                                                <img src="public\img\403-error-forbidden-animate.svg"
+                                                    alt="No image available" class="img-fluid"
+                                                    style="max-width: 100px; max-height: 100px;">
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-danger h-20" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal" onclick="handleDelete({{ $d->id }})">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                         </table>
                     </div>
                 </div>
@@ -61,37 +68,37 @@
     </div>
     <!-- END OF TABLE -->
 
-{{-- IMAGE OVERLAY --}}
-<div id="imageOverlay" class="image-overlay" style="display: none;">
-    <span class="close-btn" onclick="closeImageOverlay()">&times;</span>
-    <img id="overlayImage" src="" class="overlay-image">
-</div>
-{{-- END OF IMAGE OVERLAY --}}
+    {{-- IMAGE OVERLAY --}}
+    <div id="imageOverlay" class="image-overlay" style="display: none;">
+        <span class="close-btn" onclick="closeImageOverlay()">&times;</span>
+        <img id="overlayImage" src="" class="overlay-image">
+    </div>
+    {{-- END OF IMAGE OVERLAY --}}
 
-<!-- DELETE MODAL -->
-<div class="modal fade" id="deleteModal">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this item?</p>
-            </div>
+    <!-- DELETE MODAL -->
+    <div class="modal fade" id="deleteModal">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this item?</p>
+                </div>
 
-            <div class="modal-footer">     
-                <form id="deleteForm" method="POST" action="">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <div class="modal-footer">
+                    <form id="deleteForm" method="POST" action="">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- END OF DELETE MODAL -->
+    <!-- END OF DELETE MODAL -->
 
 @endsection
 <script>
