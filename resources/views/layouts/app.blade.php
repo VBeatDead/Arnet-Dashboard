@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="{{ asset('img/LOGO BULAT.png') }}">
     <link rel="stylesheet" href="{{ asset('css/override.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/app.js') }}">
 
 
     <!-- JQuery -->
