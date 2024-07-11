@@ -27,36 +27,31 @@
                                 </tr>
                             </thead>
                         <tbody>
-                            @foreach ($denah as $d)
-    <tr>
-        <td>{{ $loop->iteration }}</td>
-        <td>{{ $d->name }}</td>
-        <td>
-            @if($d->converted_image)
-                <!-- Debugging: Tampilkan path gambar -->
-                {{-- <p>{{ $d->converted_image }}</p> --}}
-                @php
-                    $convertedImageUrl = asset($d->converted_image);
-                @endphp
-                <img src="{{ $convertedImageUrl }}" alt="{{ $d->name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
-            @else
-                <a href="{{ asset($d->file) }}" title="Download" class="btn btn-primary" download><i class="bi bi-download"></i></a>
-            @endif
-        </td>
-        <td class="text-center">
-            <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
-                <i class="bi bi-pencil"></i>
-            </a>
-            <button type="button" class="btn btn-danger h-20" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="handleDelete({{ $d->id }})">
-                <i class="bi bi-trash"></i>
-            </button>
-        </td>
-    </tr>
-@endforeach
-
-
+                        @foreach ($denah as $d)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $d->name }}</td>
+                            <td>
+                                @if($d->converted_image)
+                                    @php
+                                        $convertedImageUrl = asset($d->converted_image);
+                                    @endphp
+                                    <img src="{{ $convertedImageUrl }}" alt="{{ $d->name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                                @else
+                                    <a href="{{ asset($d->file) }}" title="Download" class="btn btn-primary" download><i class="bi bi-download"></i></a>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ route('denah.edit', $d->id) }}" class="btn btn-warning">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <button type="button" class="btn btn-danger h-20" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="handleDelete({{ $d->id }})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -88,5 +83,4 @@
 @endsection
 <script>
     const handleDelete = (id) => document.querySelector('#deleteModal .modal-footer a').href = 'denah/d' + id;
-    // DataTables
 </script>
