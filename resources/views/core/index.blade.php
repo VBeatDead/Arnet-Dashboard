@@ -32,6 +32,9 @@
                             <a href="{{ route('addcore') }}" class="btn btn-primary mb-4 mt-3">
                                 <i class="bi bi-plus me-3"></i>Insert New Core Potential
                             </a>
+                            <p>Last updated:
+                                {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->format('d M Y H:i:s') : 'Never' }}
+                            </p>
                         </div>
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -44,19 +47,9 @@
                         </div>
                     </div>
 
-                    <!-- Menampilkan tanggal dan waktu terakhir diperbarui -->
-                    @php
-                        $lastUpdated = DB::table('cores')->max('last_updated');
-                    @endphp
-
-                    @if ($lastUpdated)
-                        <p class="text-muted">Last updated:
-                            {{ \Carbon\Carbon::parse($lastUpdated)->format('d M Y, H:i:s') }}</p>
-                    @endif
-
                     <div class="row">
                         @foreach ($chartData as $data)
-                            @if ($data['ccount'] != 0 || $data['good'] != 0 || $data['bad'] != 0 || $data['used'] != 0 )
+                            @if ($data['ccount'] != 0 || $data['good'] != 0 || $data['bad'] != 0 || $data['used'] != 0)
                                 <div class="col-12 col-md-6 mb-3">
                                     <div class="card">
                                         <div class="card-body">
@@ -81,7 +74,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const chartData = @json($chartData);
             chartData.forEach((data, index) => {
-                if (data.ccount != 0 || data.good != 0 || data.bad != 0 || data.used != 0 ) {
+                if (data.ccount != 0 || data.good != 0 || data.bad != 0 || data.used != 0) {
                     const ctx = document.getElementById(`chart-${index}`).getContext('2d');
                     new Chart(ctx, {
                         type: 'bar',
@@ -89,21 +82,20 @@
                             labels: ['Kabel', 'Good', 'Bad', 'Used', ],
                             datasets: [{
                                 label: '',
-                                data: [data.ccount, data.good, data.bad, data.used, 
-                                ],
+                                data: [data.ccount, data.good, data.bad, data.used, ],
                                 backgroundColor: [
                                     'rgba(54, 162, 235, 0.2)',
                                     'rgba(75, 192, 192, 0.2)',
                                     'rgba(255, 99, 132, 0.2)',
                                     'rgba(255, 206, 86, 0.2)',
-                                    
+
                                 ],
                                 borderColor: [
                                     'rgba(54, 162, 235, 1)',
                                     'rgba(75, 192, 192, 1)',
                                     'rgba(255, 99, 132, 1)',
                                     'rgba(255, 206, 86, 1)',
-                                    
+
                                 ],
                                 borderWidth: 1
                             }]
@@ -117,7 +109,7 @@
                                     }
                                 }
                             },
-                            plugins: {                         
+                            plugins: {
                                 legend: {
                                     display: false
                                 }

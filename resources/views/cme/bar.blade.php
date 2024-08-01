@@ -35,7 +35,17 @@
                                         <div class="card-body">
                                             <h5 class="card-title text-center">{{ $data['device'] }}</h5>
                                             <div class="chart-container items-center">
-                                                <canvas id="barChart-{{ $data['device'] }}"></canvas>
+                                                <canvas id="barChart-{{ $data['device'] }}-1"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">{{ $data['device'] }}</h5>
+                                            <div class="chart-container items-center">
+                                                <canvas id="barChart-{{ $data['device'] }}-2"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -51,19 +61,34 @@
     <script>
         const chartData = @json($chartData);
 
-        function renderBarChart(data) {
-            const ctx = document.getElementById(`barChart-${data.device}`).getContext('2d');
+        function renderBarChart(data, chartId, isPercentage = false) {
+            const ctx = document.getElementById(chartId).getContext('2d');
+            let chartData = [data.underfive, data.morethanfive, data.morethanten];
+
+            if (isPercentage) {
+                const total = data.underfive + data.morethanfive + data.morethanten;
+                chartData = chartData.map(value => ((value / total) * 100).toFixed(2));
+            }
+
             new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: ['Under 5', '5-10', '10+'],
                     datasets: [{
-                        label: data.device,
-                        data: [data.underfive, data.morethanfive, data.morethanten],
+                        label: isPercentage ? data.device + ' (%)' : data.device,
+                        data: chartData,
                         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
                     }]
                 },
                 options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: isPercentage ? 10 : 1
+                            }
+                        }
+                    },
                     responsive: true,
                     plugins: {
                         legend: {
@@ -73,8 +98,10 @@
                 }
             });
         }
+
         chartData.forEach(data => {
-            renderBarChart(data);
+            renderBarChart(data, `barChart-${data.device}-1`);
+            renderBarChart(data, `barChart-${data.device}-2`, true);
         });
     </script>
 

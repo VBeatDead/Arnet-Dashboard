@@ -17,6 +17,7 @@ class CoreController extends Controller
     {
         $cores = Core::all();
         $search = $request->input('search');
+        $lastUpdated = Core::max('last_updated');
         $cores = Core::when($search, function ($query, $search) {
             return $query->where('segment', 'like', '%' . $search . '%');
         })->get();
@@ -43,7 +44,7 @@ class CoreController extends Controller
             ];
         }
 
-        return view('core.index', compact('chartData'));
+        return view('core.index', compact('chartData', 'lastUpdated'));
     }
 
     public function view()
