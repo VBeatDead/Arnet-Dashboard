@@ -80,6 +80,7 @@ Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update')
 
 //Core
 Route::get('/core', [CoreController::class, 'index'])->name('core')->middleware(RedirectIfNotAuthenticated::class);
+Route::get('/core/pie', [CoreController::class, 'view'])->name('corepie')->middleware(RedirectIfNotAuthenticated::class);
 Route::resource('core', CoreController::class)->middleware(RedirectIfNotAuthenticated::class);
 Route::get('/viewcore', [CoreController::class, 'index'])->name('viewcore')->middleware(RedirectIfNotAuthenticated::class);
 Route::get('/addcore', [CoreController::class, 'create'])->name('addcore')->middleware(RedirectIfNotAuthenticated::class);

@@ -94,16 +94,16 @@ aside.bd-sidebar .sidebar-body .list-group-item {
 }
 
 .accordion-collapse[data-bg-id] {
-    background-color: pink !important;
+    background-color: #7c1f1a !important;
 }
 
 .accordion-button[data-bg-id]:not(.collapsed) {
-    background-color: pink !important;
+    background-color: #7c1f1a !important;
     color: white !important;
 }
 
 .accordion-button[data-bg-id].collapsed {
-    background-color: pink !important;
+    background-color: #7c1f1a !important;
     color: white !important;
 }
 

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('bad')->nullable()->default(0);
             $table->string('used')->nullable()->default(0);
             $table->string('total')->nullable()->default(0);
-            $table->timestamp('last_updated')->nullable(0);
+            $table->timestamp('last_updated')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }
