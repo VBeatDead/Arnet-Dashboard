@@ -101,26 +101,30 @@ class CmeController extends Controller
 
         $chartData = [];
         foreach ($cmes as $cme) {
-            if (
-                !is_numeric($cme->underfive) && $cme->underfive == 0 &&
-                !is_numeric($cme->morethanfive) && $cme->morethanfive == 0 &&
-                !is_numeric($cme->morethanten) && $cme->morethanten == 0
-            ) {
-                continue;
-            }
+            $underfive = $cme->underfive;
+            $morethanfive = $cme->morethanfive;
+            $morethanten = $cme->morethanten;
+            $total = $underfive + $morethanfive + $morethanten;
 
-            $chartData[] = [
-                'name' => $cme->cmeSto->subtype,
-                'device' => $cme->cmeType->subtype,
-                'underfive' => $cme->underfive,
-                'morethanfive' => $cme->morethanfive,
-                'morethanten' => $cme->morethanten,
-            ];
+            if ($total > 0) {
+                $chartData[] = [
+                    'name' => $cme->cmeSto->subtype,
+                    'device' => $cme->cmeType->subtype,
+                    'underfive' => $underfive,
+                    'morethanfive' => $morethanfive,
+                    'morethanten' => $morethanten,
+                    'count' => $cme->count,
+                    'percentages' => [
+                        'underfive' => ($underfive / $total) * 100,
+                        'morethanfive' => ($morethanfive / $total) * 100,
+                        'morethanten' => ($morethanten / $total) * 100,
+                    ],
+                ];
+            }
         }
+
         return view('cme.bar', compact('chartData'));
     }
-
-
 
     /**
      * Show the form for editing the specified resource.

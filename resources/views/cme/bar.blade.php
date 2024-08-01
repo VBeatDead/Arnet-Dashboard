@@ -63,12 +63,15 @@
 
         function renderBarChart(data, chartId, isPercentage = false) {
             const ctx = document.getElementById(chartId).getContext('2d');
-            let chartData = [data.underfive, data.morethanfive, data.morethanten];
-
-            if (isPercentage) {
-                const total = data.underfive + data.morethanfive + data.morethanten;
-                chartData = chartData.map(value => ((value / total) * 100).toFixed(2));
-            }
+            let chartData = isPercentage ? [
+                data.percentages.underfive.toFixed(2),
+                data.percentages.morethanfive.toFixed(2),
+                data.percentages.morethanten.toFixed(2)
+            ] : [
+                data.underfive,
+                data.morethanfive,
+                data.morethanten
+            ];
 
             new Chart(ctx, {
                 type: 'bar',
@@ -85,7 +88,7 @@
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                stepSize: isPercentage ? 10 : 1
+                                stepSize: isPercentage ? 50 : 1
                             }
                         }
                     },
@@ -94,7 +97,22 @@
                         legend: {
                             position: 'top',
                         },
-                    },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    let label = tooltipItem.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += tooltipItem.raw;
+                                    if (isPercentage) {
+                                        label += '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -104,5 +122,6 @@
             renderBarChart(data, `barChart-${data.device}-2`, true);
         });
     </script>
+
 
 @endsection
