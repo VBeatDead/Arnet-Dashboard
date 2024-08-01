@@ -10,10 +10,9 @@ class RedirectIfNotAuthenticated
     public function handle(Request $request, Closure $next)
     {
         // Check if user_id exists in session
-        if (!$request->session()->has('user_id')) {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        if (session()->has('user_id')) {
+            return $next($request);
         }
-
-        return $next($request);
+        return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
     }
 }

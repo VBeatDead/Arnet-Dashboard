@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dropdown;
 use App\Models\Map;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,63 +14,73 @@ class MapController extends Controller
 {
     public function index()
     {
-
-        if (session()->has('user_id')) {
-            $denah = Map::all();
-            return view('denah/index', ['denah' => $denah]);
-        } else {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+        $user = User::find(session('user_id'));
+        // dd($user->toArray());
+        $denah = Map::with(['sto', 'room'])->get();
+        return view('denah/index', ['denah' => $denah, 'user' => $user]);
     }
 
     public function create()
     {
-
-        if (session()->has('user_id')) {
-            $user = User::find(session('user_id'));
-            return view('denah/create', ['user' => $user]);
-        } else {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+        $user = User::find(session('user_id'));
+        $sto = Dropdown::where('type', 'sto')->get();
+        $room = Dropdown::where('type', 'room')->get();
+        return view('denah/create', ['room' => $room, 'sto' => $sto]);
     }
 
     public function store(Request $request)
     {
+        // dd($request->all());
         Log::info('Store method called');
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'sto_id' => 'required|integer|exists:dropdowns,id',
+            'room_id' => 'required|integer|exists:dropdowns,id',
             'file' => 'required|file|max:2048'
         ]);
 
         $validator->after(function ($validator) use ($request) {
-            if ($request->file('file')->getClientOriginalExtension() !== 'vsd') {
-                $validator->errors()->add('file', 'The file must be a file of type: vsd.');
+            if ($request->file('file')) {
+                $extension = $request->file('file')->getClientOriginalExtension();
+                $allowedExtensions = ['vsd', 'png', 'jpg', 'jpeg'];
+                if (!in_array($extension, $allowedExtensions)) {
+                    $validator->errors()->add('file', 'File must be of type .vsd, .png, .jpg, or .jpeg');
+                }
             }
         });
+
+
 
         if ($validator->fails()) {
             Log::info('Validation failed');
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if ($request->file('file')) {
-            Log::info('File upload detected');
-            $file = $request->file('file');
-            $fileName = $file->getClientOriginalName();
+
+        Log::info('File upload detected');
+        $file = $request->file('file');
+        $fileName = $file->getClientOriginalName();
+        if ($request->file('file')->getClientOriginalExtension() == 'vsd') {
             $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
             $convertedImagePath = $this->convertVsdToImage($filePath);
             Log::info('Converted image path: ' . $convertedImagePath);
+        } else {
+            $convertedImagePath = $file->storeAs('converted_images', $fileName, 'public');
         }
 
         $denah = new Map();
-        $denah->name = $request->input('name');
-        $denah->file = asset('storage/' . $filePath);
-        $denah->converted_image = asset($convertedImagePath);
+        $denah->sto_id = $request->input('sto_id');
+        $denah->room_id = $request->input('room_id');
+        if ($request->file('file')->getClientOriginalExtension() == 'vsd') {
+            $denah->file = asset('storage/' . $filePath);
+            $denah->converted_image = asset($convertedImagePath);
+        } else {
+            $denah->converted_image = asset('storage/' . $convertedImagePath);
+        }
         $denah->save();
 
         Log::info('Denah saved');
 
-        return redirect()->to('denah')->with('success', 'Denah STO berhasil disimpan.');
+        return redirect()->to('/denah')->with('success', 'STO Layout has been saved.');
     }
 
 
@@ -83,12 +94,10 @@ class MapController extends Controller
      */
     public function edit(Map $denah)
     {
-        if (session()->has('user_id')) {
-            $denah = Map::find($denah->id);
-            return view('denah.edit', ['denah' => $denah]);
-        } else {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
+        $sto = Dropdown::where('type', 'sto')->get();
+        $room = Dropdown::where('type', 'room')->get();
+        $denah = Map::find($denah->id);
+        return view('denah.edit', ['denah' => $denah, 'sto' => $sto, 'room' => $room]);
     }
 
     public function convertVsdToImage($filePath)
@@ -112,44 +121,90 @@ class MapController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Map $map)
+    public function update(Request $request, $id)
     {
-        // Validate the form data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'file' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $denah = Map::find($id);
 
-        // Update the map with the new data
-        $map->name = $request->input('name');
-
-        // Handle the file upload if there is a new file
-        if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('files', 'public');
-            $map->file = $filePath;
+        if (!$denah) {
+            return redirect()->back()->with('unusual', 'An Error Occured, Please Try Again');
         }
 
-        // Save the updated map
-        $map->save();
+        $validator = Validator::make($request->all(), [
+            'sto_id' => 'required|integer|exists:dropdowns,id',
+            'room_id' => 'required|integer|exists:dropdowns,id',
+            'file' => 'nullable|file'
+        ]);
 
-        // Redirect to the index page with a success message
-        return redirect()->route('denah.index')->with('success', 'Denah updated successfully.');
+        $validator->after(function ($validator) use ($request) {
+            if ($request->file('file')) {
+                $extension = $request->file('file')->getClientOriginalExtension();
+                $allowedExtensions = ['vsd', 'png', 'jpg', 'jpeg'];
+                if (!in_array($extension, $allowedExtensions)) {
+                    $validator->errors()->add('file', 'File must be of type .vsd, .png, .jpg, or .jpeg');
+                }
+            }
+        });
+
+        if ($validator->fails()) {
+            Log::info('Validation failed');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if ($request->file('file')) {
+            if ($denah->file) {
+                $oldFilePath = str_replace(asset('storage/'), '', $denah->file);
+                Storage::disk('public')->delete($oldFilePath);
+                Storage::disk('public')->delete(str_replace(asset('storage/'), '', $denah->converted_image));
+            } else if ($denah->converted_image) {
+                Storage::disk('public')->delete(str_replace(asset('storage/'), '', $denah->converted_image));
+            }
+
+            Log::info('File upload detected');
+            $file = $request->file('file');
+            $fileName = $file->getClientOriginalName();
+            if ($request->file('file')->getClientOriginalExtension() == 'vsd') {
+                $filePath = $file->storeAs('uploads/denah', $fileName, 'public');
+                $convertedImagePath = $this->convertVsdToImage($filePath);
+                Log::info('Converted image path: ' . $convertedImagePath);
+                $denah->file = asset('storage/' . $filePath);
+                $denah->converted_image = asset($convertedImagePath);
+            } else {
+                $convertedImagePath = $file->storeAs('converted_images', $fileName, 'public');
+                $denah->converted_image = asset('storage/' . $convertedImagePath);
+            }
+
+        }
+
+        $denah->sto_id = $request->input('sto_id');
+        $denah->room_id = $request->input('room_id');
+        $denah->save();
+
+        Log::info('Denah updated');
+        return redirect()->route('denah.index')->with('success', 'Layout data saved successfully.');
     }
 
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         // Find the item by ID
-        // dd($id);
         $denah = Map::find($id);
+
+
+        if (!$denah) {
+            return redirect()->route('viewdenah')->with('errord', 'Item not found.');
+        }
+
+        if ($denah->file) {
+            $oldFilePath = str_replace(asset('storage/'), '', $denah->file);
+            Storage::disk('public')->delete($oldFilePath);
+            Storage::disk('public')->delete(str_replace(asset('storage/'), '', $denah->converted_image));
+        } else if ($denah->converted_image) {
+            Storage::disk('public')->delete(str_replace(asset('storage/'), '', $denah->converted_image));
+        }
+
         // Delete the item
         $denah->delete();
 
         // Optionally, you can add a success message or redirect back
-        return redirect()->back()->with('success', 'Item deleted successfully.');
+        return redirect()->route('viewdenah')->with('success', 'Item deleted successfully.');
     }
 }
