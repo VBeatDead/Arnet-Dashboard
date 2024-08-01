@@ -25,6 +25,7 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
     <!-- Theme Color -->
@@ -55,7 +56,23 @@
         });
     </script>
 
-    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize DataTables
+            $('#table').DataTable();
+
+            // Script to handle passing the user ID to the delete modal
+            var deleteModal = document.getElementById('handleDelete');
+            deleteModal.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var userId = button.getAttribute('data-id');
+                var deleteUserIdInput = document.getElementById('deleteUserId');
+                deleteUserIdInput.value = userId;
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>

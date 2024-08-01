@@ -5,24 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Map extends Model
+class Cme extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'total',
         'sto_id',
-        'room_id',
-        'file',
-        'converted_image',
+        'underfive',
+        'morethanfive',
+        'morethanten',
+        'type_id',
+        
     ];
 
-    public function sto()
+    public function cmeSto()
     {
         return $this->belongsTo(Dropdown::class, 'sto_id');
     }
 
-    public function room()
+
+    public function cmeType()
     {
-        return $this->belongsTo(Dropdown::class, 'room_id');
+        return $this->belongsTo(Dropdown::class, 'type_id');
     }
+    
 }
+

@@ -1,11 +1,11 @@
 <!-- resources/views/dashboard.blade.php -->
 @extends('layouts.app')
 
-@section('title', 'Telkom | Tambah Denah')
+@section('title', 'Telkom | Create New Layout')
 
 @section('content')
 
-@if ($errors->any())
+    @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -15,38 +15,64 @@
         </div>
     @endif
 
-<main class="bd-main p-3 bg-light">
+    <?php if (session()->has('fileError')) :?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= session('fileError') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php endif; ?>
 
-    <form action="/storedenah" method="post" enctype="multipart/form-data">
-        @csrf
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nama File</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
+    <main class="bd-main p-3 bg-light">
+
+        <form action="/storedenah" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="sto_id" class="form-label">
+                          STO Location
+                        </label>
+                        <select class="form-select" id="sto_id" name="sto_id">
+                        <option value="">Choose...</option>
+                          <?php foreach ($sto as $sto) : ?>
+                            <option value="<?= $sto->id ?>" <?= old('sto_id') == $sto->id ? 'selected' : '' ?>><?= $sto->subtype?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="room_id" class="form-label">
+                          Room Type
+                        </label>
+                        <select class="form-select" id="room_id" name="room_id">
+                        <option value="">Choose...</option>
+                          <?php foreach ($room as $room) : ?>
+                            <option value="<?= $room->id ?>" <?= old('room_id') == $room->id ? 'selected' : '' ?>><?= $room->subtype?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    <div class="mb-3">
+                        <label for="file" class="form-label">File</label>
+                        <input class="form-control" type="file" id="file" name="file">
+                        <div class="itali">
+                            <span>File type must be .vsd, png, jpg, jpeg</span>
+                        </div>
+                        
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="file" class="form-label">File</label>
-                    <input class="form-control" type="file" id="file" name="file" >
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="card">
+                <div class="card-body">
+                    <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                    <button type="button" class="btn btn-secondary btn-lg" onclick="window.location='{{ route('viewdenah') }}'">Cancel</button>
                 </div>
-                {{-- <div class="text-center">
-                    <img src="./img/geo-alt.svg" id="preview" alt="Placeholder File" width="500" class="img-thumbnail mb-3">
-                </div> --}}
             </div>
-        </div>
+            <!-- END OF ACTION BUTTONS -->
 
-        <!-- ACTION BUTTONS -->
-        <div class="card">
-            <div class="card-body">
-                <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                <button type="reset" class="btn btn-secondary btn-lg">Cancel</button>
-            </div>
-        </div>
-        <!-- END OF ACTION BUTTONS -->
+        </form>
 
-    </form>
-
-    <!-- <div class="bg-danger" style="height: 100vh;"></div> -->
-</main>
+        <!-- <div class="bg-danger" style="height: 100vh;"></div> -->
+    </main>
 
 @endsection
