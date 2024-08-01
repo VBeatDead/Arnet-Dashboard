@@ -56,7 +56,7 @@
 
                     <div class="row">
                         @foreach ($chartData as $data)
-                            @if ($data['ccount'] != 0 || $data['good'] != 0 || $data['bad'] != 0 || $data['used'] != 0 || $data['total'] != 0)
+                            @if ($data['ccount'] != 0 || $data['good'] != 0 || $data['bad'] != 0 || $data['used'] != 0 )
                                 <div class="col-12 col-md-6 mb-3">
                                     <div class="card">
                                         <div class="card-body">
@@ -81,31 +81,29 @@
         document.addEventListener('DOMContentLoaded', function() {
             const chartData = @json($chartData);
             chartData.forEach((data, index) => {
-                if (data.ccount != 0 || data.good != 0 || data.bad != 0 || data.used != 0 || data.total !=
-                    0) {
+                if (data.ccount != 0 || data.good != 0 || data.bad != 0 || data.used != 0 ) {
                     const ctx = document.getElementById(`chart-${index}`).getContext('2d');
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['Kabel', 'Good', 'Bad', 'Used', 'Total'],
+                            labels: ['Kabel', 'Good', 'Bad', 'Used', ],
                             datasets: [{
                                 label: '',
-                                data: [data.ccount, data.good, data.bad, data.used, data
-                                    .total
+                                data: [data.ccount, data.good, data.bad, data.used, 
                                 ],
                                 backgroundColor: [
                                     'rgba(54, 162, 235, 0.2)',
                                     'rgba(75, 192, 192, 0.2)',
                                     'rgba(255, 99, 132, 0.2)',
                                     'rgba(255, 206, 86, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)'
+                                    
                                 ],
                                 borderColor: [
                                     'rgba(54, 162, 235, 1)',
                                     'rgba(75, 192, 192, 1)',
                                     'rgba(255, 99, 132, 1)',
                                     'rgba(255, 206, 86, 1)',
-                                    'rgba(153, 102, 255, 1)'
+                                    
                                 ],
                                 borderWidth: 1
                             }]
@@ -119,15 +117,7 @@
                                     }
                                 }
                             },
-                            plugins: {
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            return context.parsed.y + ' (' + ((context.parsed
-                                                .y / data.total) * 100).toFixed(2) + '%)';
-                                        }
-                                    }
-                                },
+                            plugins: {                         
                                 legend: {
                                     display: false
                                 }
