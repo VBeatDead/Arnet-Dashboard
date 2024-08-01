@@ -35,7 +35,7 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="file" class="form-label">CME Potential</label>
-                        <input class="form-control" type="file" id="file" name="file" >
+                        <input class="form-control" type="file" id="file" name="file" accept=".xlsx, .xls">
                         <div class="italic">
                             <span>File type must be Excel format</span>
                         </div>
