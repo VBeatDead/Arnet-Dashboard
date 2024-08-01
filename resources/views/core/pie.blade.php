@@ -83,7 +83,7 @@
                 new Chart(ctx, {
                     type: 'pie',
                     data: {
-                        labels: ['Ccount', 'Good', 'Bad', 'Used', 'Total'],
+                        labels: ['Kabel', 'Good', 'Bad', 'Used', 'Total'],
                         datasets: [{
                             data: [data.ccount, data.good, data.bad, data.used, data.total],
                             backgroundColor: [
