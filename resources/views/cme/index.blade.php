@@ -35,7 +35,7 @@
                     <div class="row mb-3">
                         <div class="col-12 text-end pt-3">
                             <p>Last updated:
-                                {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->format('d M Y') : 'Never' }}
+                                {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->format('d M Y H:i:s') : 'Never' }}
                             </p>
                         </div>
                     </div>

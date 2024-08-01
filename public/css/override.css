@@ -94,15 +94,45 @@ aside.bd-sidebar .sidebar-body .list-group-item {
 }
 
 .accordion-collapse[data-bg-id] {
-    background-color: pink !important;
+    background-color: #7c1f1a !important;
 }
 
 .accordion-button[data-bg-id]:not(.collapsed) {
-    background-color: pink !important;
+    background-color: #7c1f1a !important;
     color: white !important;
 }
 
 .accordion-button[data-bg-id].collapsed {
-    background-color: pink !important;
+    background-color: #7c1f1a !important;
     color: white !important;
+}
+
+.itali {
+    font-style: italic;
+    font-size: 1.5ch;
+    font-weight: bold;
+}
+
+.bg-dark {
+    --bs-bg-opacity: 1;
+    background-color: #000000 !important;
+}
+
+.pagination {
+    --bs-pagination-color: #7c1f1a !important;
+    --bs-pagination-active-bg: #7c1f1a !important;
+}
+
+.bi-arrow-down-square-fill {
+    color: #31d2f2;
+}
+.img {
+    color: #157347;
+}
+
+.container-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }

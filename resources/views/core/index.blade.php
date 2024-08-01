@@ -27,11 +27,32 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title text-uppercase">Core Potential</h6>
-                    <div>
-                        <a href="{{ route('addcore') }}" class="btn btn-primary mb-4 mt-3">
-                            <i class="bi bi-plus me-3"></i>Insert New Core Potential
-                        </a>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <a href="{{ route('addcore') }}" class="btn btn-primary mb-4 mt-3">
+                                <i class="bi bi-plus me-3"></i>Insert New Core Potential
+                            </a>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Chart
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="{{ route('corepie') }}">Pie Chart</a></li>
+                            </ul>
+                        </div>
                     </div>
+
+                    <!-- Menampilkan tanggal dan waktu terakhir diperbarui -->
+                    @php
+                        $lastUpdated = DB::table('cores')->max('last_updated');
+                    @endphp
+
+                    @if ($lastUpdated)
+                        <p class="text-muted">Last updated:
+                            {{ \Carbon\Carbon::parse($lastUpdated)->format('d M Y, H:i:s') }}</p>
+                    @endif
 
                     <div class="row">
                         @foreach ($chartData as $data)
@@ -39,8 +60,10 @@
                                 <div class="col-12 col-md-6 mb-3">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="chart-container" style="position: relative; height:40vh; width:100%">
-                                                <h6 class="text-center font-weight-bold mb-2">Bar Chart for {{ $data['ruas'] }}</h6>
+                                            <div class="chart-container"
+                                                style="position: relative; height:40vh; width:100%">
+                                                <h6 class="text-center font-weight-bold mb-2">Bar Chart for
+                                                    {{ $data['ruas'] }}</h6>
                                                 <canvas id="chart-{{ $loop->index }}"></canvas>
                                             </div>
                                         </div>
@@ -58,15 +81,18 @@
         document.addEventListener('DOMContentLoaded', function() {
             const chartData = @json($chartData);
             chartData.forEach((data, index) => {
-                if (data.ccount != 0 || data.good != 0 || data.bad != 0 || data.used != 0 || data.total != 0) {
+                if (data.ccount != 0 || data.good != 0 || data.bad != 0 || data.used != 0 || data.total !=
+                    0) {
                     const ctx = document.getElementById(`chart-${index}`).getContext('2d');
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['Ccount', 'Good', 'Bad', 'Used', 'Total'],
+                            labels: ['Kabel', 'Good', 'Bad', 'Used', 'Total'],
                             datasets: [{
                                 label: '',
-                                data: [data.ccount, data.good, data.bad, data.used, data.total],
+                                data: [data.ccount, data.good, data.bad, data.used, data
+                                    .total
+                                ],
                                 backgroundColor: [
                                     'rgba(54, 162, 235, 0.2)',
                                     'rgba(75, 192, 192, 0.2)',
@@ -88,12 +114,20 @@
                             scales: {
                                 y: {
                                     beginAtZero: true,
-                                    ticks:{
-                                        stepSize: 12
+                                    ticks: {
+                                        stepSize: 4
                                     }
                                 }
                             },
                             plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return context.parsed.y + ' (' + ((context.parsed
+                                                .y / data.total) * 100).toFixed(2) + '%)';
+                                        }
+                                    }
+                                },
                                 legend: {
                                     display: false
                                 }
