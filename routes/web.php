@@ -35,6 +35,8 @@ Route::delete('/denah/{id}', [MapController::class, 'destroy'])->name('deleteden
 Route::get('/topology', [TopologyController::class, 'topology'])->name('topology')->middleware(RedirectIfNotAuthenticated::class);
 Route::resource('topology', TopologyController::class)->middleware(RedirectIfNotAuthenticated::class);
 Route::get('/addtopology', [TopologyController::class, 'create'])->name('addtopology')->middleware(RedirectIfNotAuthenticated::class);
+Route::post('/topology/store', [TopologyController::class, 'store'])->name('storetopology'); 
+
 // Document
 Route::get('/document', [DocumentController::class, 'index'])->name('Document')->middleware(RedirectIfNotAuthenticated::class);
 Route::resource('document', DocumentController::class)->middleware(RedirectIfNotAuthenticated::class);

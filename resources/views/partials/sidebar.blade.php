@@ -62,7 +62,7 @@
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('document') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
                                     <i class="bi bi-envelope me-3"></i>
-                                    <span class="submenu-title">Permission Document</span>
+                                    <span class="submenu-title">Asset Idle</span>
                                 </a>
                                 <a href="{{ url('/sto') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('sto') ? 'active' : '' }}"

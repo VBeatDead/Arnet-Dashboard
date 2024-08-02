@@ -5,60 +5,62 @@
 
   @section('content')
 
-      @if ($errors->any())
-          <div class="alert alert-danger">
-              <ul>
-                  @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                  @endforeach
-              </ul>
-          </div>
-      @endif
+  @if ($errors->any())
+  <div class="alert alert-danger">
+      <ul>
+          @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+  </div>
+  @endif
 
-      <?php if (session()->has('fileError')) :?>
+  <?php if (session()->has('fileError')) : ?>
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <?= session('fileError') ?>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-      <?php endif; ?>
+  <?php endif; ?>
 
-      <main class="bd-main p-3 bg-light">
+  <main class="bd-main p-3 bg-light">
+      <form action="{{ route('storetopology') }}" method="post" enctype="multipart/form-data">
+          @csrf
 
-          <form action="/storetopology" method="post" enctype="multipart/form-data">
-              
-              <div class="card mb-3">
-                  <div class="card-body">
-                      <div class="mb-3">
-                          <label for="file" class="form-label">File</label>
-                          <input class="form-control" type="file" id="file" name="file">
-                          <div class="itali">
-                              <span>File type must be png, jpg, jpeg</span>
-                          </div>
+          <div class="card mb-3">
+              <div class="card-body">
+                  <div class="mb-3">
+                      <label for="file" class="form-label">File</label>
+                      <input class="form-control" type="file" id="file" name="file">
+                      <div class="itali">
+                          <span>File type must be png, jpg, jpeg</span>
                       </div>
-                        <div class="mb-3">
-                          <label for="device_id" class="form-label">
-                            Device Type
-                          </label>
-                          <select class="form-select" id="room_id" name="room_id">
+                  </div>
+                  <div class="mb-3">
+                      <label for="device_id" class="form-label">
+                          Device Type
+                      </label>
+                      <select class="form-select" id="device_id" name="device_id">
                           <option value="">Choose...</option>
-                         
-                          </select>
-                        </div>
+                          <?php foreach ($topology as $device) : ?>
+                              <option value="<?= $device->id ?>" <?= old('device_id') == $device->id ? 'selected' : '' ?>><?= $device->subtype ?></option>
+                          <?php endforeach; ?>
+                      </select>
                   </div>
               </div>
+          </div>
 
-              <!-- ACTION BUTTONS -->
-              <div class="card">
-                  <div class="card-body">
-                      <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                      <button type="button" class="btn btn-secondary btn-lg" onclick="window.location='{{ route('topology.index') }}'">Cancel</button>
-                  </div>
+          <!-- ACTION BUTTONS -->
+          <div class="card">
+              <div class="card-body">
+                  <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                  <button type="button" class="btn btn-secondary btn-lg" onclick="window.location='{{ route('topology.index') }}'">Cancel</button>
               </div>
-              <!-- END OF ACTION BUTTONS -->
+          </div>
+          <!-- END OF ACTION BUTTONS -->
 
-          </form>
+      </form>
 
-          <!-- <div class="bg-danger" style="height: 100vh;"></div> -->
-      </main>
+      <!-- <div class="bg-danger" style="height: 100vh;"></div> -->
+  </main>
 
   @endsection

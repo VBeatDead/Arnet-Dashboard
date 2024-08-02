@@ -159,7 +159,7 @@ class UsersSeeder extends Seeder
             ],
             '30' => [
                 'type' => ['room'],
-                'subtype' => ['R. RECTI BENING'],
+                'subtype' => ['R. Rectifier'],
             ],
             '31' => [
                 'type' => ['room'],
@@ -394,9 +394,33 @@ class UsersSeeder extends Seeder
                 'type' => ['category'],
                 'subtype' => ['DIESEL MOBILE'],
             ],
+            '89' => [
+                'type' => ['topology'],
+                'subtype' => ['METRO'],
+            ],
 
+            '90' => [
+                'type' => ['topology'],
+                'subtype' => ['DWDM M920'],
+            ],
+            '91' => [
+                'type' => ['topology'],
+                'subtype' => ['DWDM M820'],
+            ],
+            '92' => [
+                'type' => ['topology'],
+                'subtype' => ['OTN JVBB'],
+            ],
+            '93' => [
+                'type' => ['topology'],
+                'subtype' => ['OTN 9800'],
+            ],
+            '94' => [
+                'type' => ['topology'],
+                'subtype' => ['KABEL BACKBONE'],
+            ],
 
-
+            
 
         ];
 

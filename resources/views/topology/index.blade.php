@@ -5,21 +5,21 @@
 @section('content')
 
 @if (session()->has('errors'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <ul class="m-0">
-            @foreach (session('errors') as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <ul class="m-0">
+        @foreach (session('errors') as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 @endif
 
 @if (session()->has('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 @endif
 
 <!-- TABLE -->
@@ -45,6 +45,15 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($topologies as $index => $topology)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td><a href="{{ asset('storage/uploads/' . $topology->file) }}" download>{{ $topology->file }}</a></td>
+                                <td>{{ $topology->device_type }}</td>
+                                <td><img src="{{ asset('storage/uploads/' . $topology->file) }}" width="100" onclick="showImage('{{ asset('storage/uploads/' . $topology->file) }}')"></td>
+                                <td>{{ $topology->last_updated }}</td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -97,9 +106,9 @@
     //     form.action = `/document/${id}`;
     // };
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var handleDelete = document.getElementById('handleDelete');
-        handleDelete.addEventListener('show.bs.modal', function (event) {
+        handleDelete.addEventListener('show.bs.modal', function(event) {
             var button = event.relatedTarget;
             var id = button.getAttribute('data-id');
 
