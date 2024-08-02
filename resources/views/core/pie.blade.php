@@ -133,13 +133,23 @@
                                     return percentage.toFixed(2) !== '0.00' ? percentage.toFixed(2) + '%' : '';
                                 },
                                 color: 'black',
-                                font: {
-                                    weight: 'bold',
-                                    size: '15',
+                                font: (ctx) => {
+                                    var value = ctx.dataset.data[ctx.dataIndex];
+                                    var percentage = (value / data.total) * 100;
+                                    return {
+                                        weight: 'bold',
+                                        size: '12',
+                                        style: percentage < 5 ? 'normal' : 'normal'
+                                    };
                                 },
                                 anchor: 'end',
                                 align: 'start',
-                                offset: 10
+                                offset: 10,
+                                rotation: (ctx) => {
+                                    var value = ctx.dataset.data[ctx.dataIndex];
+                                    var percentage = (value / data.total) * 100;
+                                    return percentage < 5 ? -85 : 0;
+                                }
                             }
                         }
                     },
