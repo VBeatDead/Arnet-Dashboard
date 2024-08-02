@@ -106,18 +106,34 @@
                     options: {
                         plugins: {
                             tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        var percentage = (context.raw / data.total) * 100;
-                                        return percentage.toFixed(2) + '%';
-                                    }
-                                }
+                                enabled: false
+                                // callbacks: {
+                                //     label: function(context) {
+                                //         var percentage = (context.raw / data.total) * 100;
+                                //         return percentage.toFixed(2) + '%';
+                                //     }
+                                // }
                             },
                             legend: {
                                 display: true
+                            },
+                            datalabels: {
+                                formatter: (value, ctx) => {
+                                    var percentage = (value / data.total) * 100;
+                                    return percentage.toFixed(2) !== '0.00' ? percentage.toFixed(2) + '%' : '';
+                                },
+                                color: 'black',
+                                font: {
+                                    weight: 'bold',
+                                    size: '15',
+                                },
+                                anchor: 'end',
+                                align: 'start',
+                                offset: 10
                             }
                         }
-                    }
+                    },
+                    plugins: [ChartDataLabels]
                 });
             }
         });
