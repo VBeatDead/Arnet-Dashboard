@@ -50,6 +50,13 @@
                                     <i class="bi bi-diagram-3 me-3"></i>
                                     <span class="submenu-title">STO Layout</span>
                                 </a>
+
+                                <a href="{{ url('/topology') }}"
+                                    class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('topology') ? 'active' : '' }}"
+                                    data-bs-placement="right" data-bs-title="Topology">
+                                    <i class="bi bi-diagram-3 me-3"></i>
+                                    <span class="submenu-title">STO Topology</span>
+                                </a>
                                 <!-- Add More Menus -->
                                 <a href="{{ url('/document') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('document') ? 'active' : '' }}"

@@ -11,10 +11,7 @@ use App\Http\Controllers\STOController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\CoreController;
 use App\Http\Controllers\CmeController;
-
-
-
-
+use App\Http\Controllers\TopologyController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -34,7 +31,10 @@ Route::get('/adddenah', [MapController::class, 'create'])->name('adddenah')->mid
 Route::post('/storedenah', [MapController::class, 'store'])->name('storedenah');
 Route::delete('/denah/{id}', [MapController::class, 'destroy'])->name('deletedenah')->middleware(CheckUserRole::class . ':0');
 
-
+//TOPOLOGY
+Route::get('/topology', [TopologyController::class, 'topology'])->name('topology')->middleware(RedirectIfNotAuthenticated::class);
+Route::resource('topology', TopologyController::class)->middleware(RedirectIfNotAuthenticated::class);
+Route::get('/addtopology', [TopologyController::class, 'create'])->name('addtopology')->middleware(RedirectIfNotAuthenticated::class);
 // Document
 Route::get('/document', [DocumentController::class, 'index'])->name('Document')->middleware(RedirectIfNotAuthenticated::class);
 Route::resource('document', DocumentController::class)->middleware(RedirectIfNotAuthenticated::class);
@@ -55,6 +55,7 @@ Route::post('/storesto', [STOController::class, 'store'])->name('storesto');
 Route::delete('/sto/{id}', [STOController::class, 'destroy'])->name('deletesto')->middleware(CheckUserRole::class . ':0');
 Route::get('/sto/{id}/edit', [STOController::class, 'edit'])->name('sto.edit')->middleware(RedirectIfNotAuthenticated::class);
 Route::put('/sto/{id}', [STOController::class, 'update'])->name('sto.update');
+
 
 //Room
 Route::get('/room', [RoomController::class, 'index'])->name('room')->middleware(RedirectIfNotAuthenticated::class);
