@@ -123,7 +123,7 @@ class UsersSeeder extends Seeder
             ],
             '21' => [
                 'type' => ['sto'],
-                'subtype' => ['sumber manjing']
+                'subtype' => ['sumber manjing wetan']
             ],
             '22' => [
                 'type' => ['sto'],
@@ -420,7 +420,7 @@ class UsersSeeder extends Seeder
                 'subtype' => ['KABEL BACKBONE'],
             ],
 
-            
+
 
         ];
 

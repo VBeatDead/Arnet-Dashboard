@@ -57,7 +57,7 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script>
         const chartData = @json($chartData);
 
@@ -78,7 +78,7 @@
                 data: {
                     labels: ['Under 5', '5-10', '10+'],
                     datasets: [{
-                        label: isPercentage ? data.device + ' (%)' : data.device,
+                        label: isPercentage ? 'Percentage of ' + data.device : 'Count of ' + data.device,
                         data: chartData,
                         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
                     }]
@@ -98,22 +98,27 @@
                             position: 'top',
                         },
                         tooltip: {
-                            callbacks: {
-                                label: function(tooltipItem) {
-                                    let label = tooltipItem.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    label += tooltipItem.raw;
-                                    if (isPercentage) {
-                                        label += '%';
-                                    }
-                                    return label;
+                            enabled: false,
+                        },
+                        datalabels: {
+                            anchor: 'center',
+                            align: 'center',
+                            color: 'black',
+                            font: {
+                                weight: 'bold',
+                                size: 14,
+                            },
+                            formatter: function(value, context) {
+                                if (value > 0) {
+                                    return isPercentage ? value + '%' : value;
+                                } else {
+                                    return null;
                                 }
                             }
                         }
                     }
-                }
+                },
+                plugins: [ChartDataLabels]
             });
         }
 
@@ -122,6 +127,4 @@
             renderBarChart(data, `barChart-${data.device}-2`, true);
         });
     </script>
-
-
 @endsection
