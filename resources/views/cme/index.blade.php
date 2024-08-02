@@ -109,6 +109,10 @@
                                 labels: {
                                     usePointStyle: true,
                                     padding: 20,
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 15
+                                    }
                                 }
                             }
                         },

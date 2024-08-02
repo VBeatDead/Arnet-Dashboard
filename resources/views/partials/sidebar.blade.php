@@ -27,18 +27,19 @@
                 <div class="accordion-item text-bg-dark border-0">
                     <!-- ADMIN MENU HEADER -->
                     <div class="accordion-header px-3">
-                    @if(Auth::check() && Auth::user()->role != 1)
-                    <button class="accordion-button text-bg-dark shadow-none p-0 py-3" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#submenu-admin">
-                            ADMIN
-                        </button>        
-                    @else
-                    <button class="accordion-button text-bg-dark shadow-none p-0 py-3" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#submenu-admin">
-                            USER
-                        </button>
-                    @endif
+                        @if (Session::get('user_role') == 0)
+                            <button class="accordion-button text-bg-dark shadow-none p-0 py-3" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#submenu-admin">
+                                ADMIN
+                            </button>
+                        @else
+                            <button class="accordion-button text-bg-dark shadow-none p-0 py-3" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#submenu-admin">
+                                USER
+                            </button>
+                        @endif
                     </div>
+
                     <!-- ADMIN SUBMENU -->
                     <div id="submenu-admin" class="accordion-collapse collapse show">
                         <div class="accordion-body p-0 px-3">
@@ -68,7 +69,7 @@
                                     <i class="bi bi-cpu me-3"></i>
                                     <span class="submenu-title">Room</span>
                                 </a>
-                                @if(Auth::check() && Auth::user()->role != 1)
+                                @if (Session::get('user_role') == 0)
                                     <a href="{{ url('/viewuser') }}"
                                         class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('viewuser') ? 'active' : '' }}"
                                         data-bs-placement="right" data-bs-title="Surat">
@@ -93,7 +94,7 @@
                                     data-bs-placement="right" data-bs-title="Logout">
                                     <i class="bi bi-box-arrow-left me-3"></i>
                                     <span class="submenu-title">Logout</span>
-                                                </a>
+                                </a>
                             </div>
                         </div>
                     </div>

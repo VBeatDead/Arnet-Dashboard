@@ -36,10 +36,13 @@ elif file_exists_xls:
 else:
     raise FileNotFoundError("Neither Core.xlsx nor Core.xls were found.")
 
-# Membaca file Excel
-df = pd.read_excel(file_path, engine=engine)
+# Membaca nama-nama sheet
+excel_file = pd.ExcelFile(file_path, engine=engine)
+if 'Ruas (1)' not in excel_file.sheet_names:
+    raise ValueError("Sheet named 'Ruas' not found in the Excel file.")
 
-
+# Membaca sheet "Ruas"
+df = pd.read_excel(file_path, sheet_name='Ruas (1)', engine=engine)
 
 # Process data
 grouped_df = df['Ruas'].value_counts().reset_index()
@@ -56,15 +59,16 @@ core = core.astype(int)
 pivot_table = df.pivot_table(
     index='Ruas',
     aggfunc={'Idle Baik': 'sum',
-                'Idle Rusak': 'sum',
-                'Core Operasi': 'sum',
-                'Ruas': 'count'
-                },
+             'Idle Rusak': 'sum',
+             'Core Operasi': 'sum',
+             'Ruas': 'count'
+             },
 )
 
 pivot_table = pivot_table.astype(int)
 pivot_table = pivot_table.rename(columns={'Ruas': 'Jumlah Kabel'})
-pivot_table['Total'] = pivot_table[['Idle Baik', 'Idle Rusak', 'Core Operasi']].sum(axis=1)
+pivot_table['Total'] = pivot_table[['Idle Baik',
+                                    'Idle Rusak', 'Core Operasi']].sum(axis=1)
 
 # Database connection parameters
 db_host = 'localhost'
@@ -88,7 +92,7 @@ try:
         sql = """INSERT INTO cores (segment, good, bad, used, ccount, total)
                     VALUES (%s, %s, %s, %s, %s, %s)"""
         cursor.execute(sql, (index, row['Idle Baik'], row['Idle Rusak'],
-                    row['Core Operasi'], row['Jumlah Kabel'], row['Total']))
+                             row['Core Operasi'], row['Jumlah Kabel'], row['Total']))
 
     connection.commit()
 

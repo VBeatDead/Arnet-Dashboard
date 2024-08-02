@@ -35,7 +35,6 @@ class UserController extends Controller
 
     public function signin(Request $request)
     {
-
         $request->validate([
             'name' => 'required',
             'password' => 'required',
@@ -46,11 +45,13 @@ class UserController extends Controller
         $user = User::where('name', $credentials['name'])->first();
         if ($user && Hash::check($credentials['password'], $user->password)) {
             $request->session()->put('user_id', $user->id);
+            $request->session()->put('user_role', $user->role);
             return redirect()->route('denah.index');
         } else {
             return redirect()->route('login')->with('error', 'Username or password incorrect.');
         }
     }
+
 
     public function logout(Request $request)
     {
@@ -97,7 +98,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user = User::all();
-        
+
         return view('user/index', ['users' => $user]);
     }
 
@@ -123,7 +124,7 @@ class UserController extends Controller
             'role' => 'required|string',
         ]);
 
-        $user = User::find($user->id);        
+        $user = User::find($user->id);
         $user->name = $request->name;
         if ($request->password) {
             $user->password = Hash::make($request->password);
@@ -138,7 +139,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        
+
         $user = User::find($id);
         $user->delete();
         return redirect()->to('viewuser')->with('success', 'User deleted successfully');

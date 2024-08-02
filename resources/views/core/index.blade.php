@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Telkom | Document')
+@section('title', 'Telkom | CORE Potential')
 
 @section('content')
 
@@ -22,7 +22,7 @@
         </div>
     @endif
 
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
@@ -46,23 +46,34 @@
                             </ul>
                         </div>
                     </div>
-
-                    <div class="row">
-                        @foreach ($chartData as $data)
-                            @if ($data['ccount'] != 0 || $data['good'] != 0 || $data['bad'] != 0 || $data['used'] != 0)
-                                <div class="col-12 col-md-6 mb-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="chart-container"
-                                                style="position: relative; height:40vh; width:100%">
-                                                <h6 class="text-center font-weight-bold mb-2">Bar Chart for
-                                                    {{ $data['ruas'] }}</h6>
-                                                <canvas id="chart-{{ $loop->index }}"></canvas>
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text" id="search-addon">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" id="search" class="form-control" placeholder="Search by segment"
+                                aria-describedby="search-addon">
+                        </div>
+                    </div>
+                    <div class="row" id="chart-container">
+                        @foreach ($chartData as $index => $data)
+                            <div class="col-12 col-md-6 mb-3 chart-item" data-segment="{{ $data['ruas'] }}">
+                                <div class="card">
+                                    <div class="card-body position-relative">
+                                        <div class="chart-container" style="position: relative; height:40vh; width:100%">
+                                            <h6 class="text-center font-weight-bold mb-2">Bar Chart for
+                                                {{ $data['ruas'] }}</h6>
+                                            <div class="loading-spinner position-absolute top-50 start-50 translate-middle"
+                                                id="loading-{{ $index }}">
+                                                <div class="spinner-border" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
                                             </div>
+                                            <canvas id="chart-{{ $index }}" style="display:none;"></canvas>
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -73,29 +84,30 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const chartData = @json($chartData);
-            chartData.forEach((data, index) => {
-                if (data.ccount != 0 || data.good != 0 || data.bad != 0 || data.used != 0) {
+            const searchInput = document.getElementById('search');
+            const chartItems = document.querySelectorAll('.chart-item');
+
+            function loadChart(index, data) {
+                setTimeout(() => {
                     const ctx = document.getElementById(`chart-${index}`).getContext('2d');
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['Kabel', 'Good', 'Bad', 'Used', ],
+                            labels: ['Kabel', 'Good', 'Bad', 'Used'],
                             datasets: [{
                                 label: '',
-                                data: [data.ccount, data.good, data.bad, data.used, ],
+                                data: [data.ccount, data.good, data.bad, data.used],
                                 backgroundColor: [
                                     'rgba(54, 162, 235, 0.2)',
                                     'rgba(75, 192, 192, 0.2)',
                                     'rgba(255, 99, 132, 0.2)',
                                     'rgba(255, 206, 86, 0.2)',
-
                                 ],
                                 borderColor: [
                                     'rgba(54, 162, 235, 1)',
                                     'rgba(75, 192, 192, 1)',
                                     'rgba(255, 99, 132, 1)',
                                     'rgba(255, 206, 86, 1)',
-
                                 ],
                                 borderWidth: 1
                             }]
@@ -116,7 +128,28 @@
                             }
                         }
                     });
+
+                    document.getElementById(`loading-${index}`).style.display = 'none';
+                    document.getElementById(`chart-${index}`).style.display = 'block';
+                }, index * 10);
+            }
+
+            chartData.forEach((data, index) => {
+                if (data.ccount != 0 || data.good != 0 || data.bad != 0 || data.used != 0) {
+                    loadChart(index, data);
                 }
+            });
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = searchInput.value.toLowerCase();
+                chartItems.forEach(item => {
+                    const segment = item.getAttribute('data-segment').toLowerCase();
+                    if (segment.includes(searchTerm)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             });
         });
     </script>

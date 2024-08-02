@@ -28,12 +28,10 @@ class CmeController extends Controller
                     'sto' => $sto->subtype,
                     'total' => $gd->total_count,
                 ];
-
                 $types = Cme::select('type_id', DB::raw('SUM(count) as total'))
                     ->where('sto_id', $gd->sto_id)
                     ->groupBy('type_id')
                     ->get();
-
                 $labels = [];
                 $values = [];
                 $colors = [];
@@ -45,7 +43,6 @@ class CmeController extends Controller
                     $colors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
                     $typess[] = $typeInfo->id;
                 }
-
                 $chartData[] = [
                     'id' => $gd->sto_id,
                     'type' => $typess,
@@ -55,10 +52,8 @@ class CmeController extends Controller
                 ];
             }
         }
-
         return view('cme.index', compact('grandtotal', 'chartData', 'lastUpdated'));
     }
-
 
     /**
      * Show the form for creating a new resource.
