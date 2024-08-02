@@ -47,7 +47,7 @@
                                 <a href="{{ url('/denah') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('denah') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Dashboard">
-                                    <i class="bi bi-diagram-3 me-3"></i>
+                                    <i class="bi bi-layout-text-sidebar me-3"></i>
                                     <span class="submenu-title">STO Layout</span>
                                 </a>
 
@@ -61,39 +61,39 @@
                                 <a href="{{ url('/document') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('document') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-envelope me-3"></i>
+                                    <i class="bi bi-archive me-3"></i>
                                     <span class="submenu-title">Asset Idle</span>
                                 </a>
                                 <a href="{{ url('/sto') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('sto') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-hdd-network me-3"></i>
+                                    <i class="bi bi-building me-3"></i>
                                     <span class="submenu-title">STO</span>
                                 </a>
                                 <a href="{{ url('/room') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('room') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-cpu me-3"></i>
+                                    <i class="bi bi-house-door me-3"></i>
                                     <span class="submenu-title">Room</span>
                                 </a>
                                 @if (Session::get('user_role') == 0)
                                     <a href="{{ url('/viewuser') }}"
                                         class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('viewuser') ? 'active' : '' }}"
                                         data-bs-placement="right" data-bs-title="Surat">
-                                        <i class="bi bi-person me-3"></i>
+                                        <i class="bi bi-people me-3"></i>
                                         <span class="submenu-title">User</span>
                                     </a>
                                 @endif
                                 <a href="{{ url('/core') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('core') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-person me-3"></i>
+                                    <i class="bi bi-diagram-3-fill me-3"></i>
                                     <span class="submenu-title">Core Potential</span>
                                 </a>
                                 <a href="{{ url('/cme') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('cme') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-person me-3"></i>
+                                    <i class="bi bi-graph-up-arrow me-3"></i>
                                     <span class="submenu-title">CME Potential</span>
                                 </a>
                                 <a href="{{ route('logout') }}"

@@ -1,7 +1,6 @@
-<!-- resources/views/dashboard.blade.php -->
 @extends('layouts.app')
 
-@section('title', 'Telkom | Create New Topology')
+@section('title', 'Telkom | Edit Topology')
 
 @section('content')
 
@@ -15,17 +14,10 @@
         </div>
     @endif
 
-    <?php if (session()->has('fileError')) : ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?= session('fileError') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    <?php endif; ?>
-
     <main class="bd-main p-3 bg-light">
-        <form action="{{ route('storetopology') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('topology.update', $topology->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-
+            @method('PUT')
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="mb-3">
@@ -34,17 +26,21 @@
                         <div class="itali">
                             <span>File type must be png, jpg, jpeg</span>
                         </div>
+                        @if ($topology->file)
+                            <p>Current File: <a href="{{ asset('storage/uploads/topology/' . $topology->file) }}"
+                                    download>{{ $topology->file }}</a></p>
+                        @endif
                     </div>
                     <div class="mb-3">
-                        <label for="device_id" class="form-label">
-                            Device Type
-                        </label>
+                        <label for="device_id" class="form-label">Device Type</label>
                         <select class="form-select" id="device_id" name="device_id">
                             <option value="">Choose...</option>
-                            <?php foreach ($topology as $device) : ?>
-                            <option value="<?= $device->id ?>" <?= old('device_id') == $device->id ? 'selected' : '' ?>>
-                                <?= $device->subtype ?></option>
-                            <?php endforeach; ?>
+                            @foreach ($devices as $device)
+                                <option value="{{ $device->id }}"
+                                    {{ $topology->device_id == $device->id ? 'selected' : '' }}>
+                                    {{ $device->subtype }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -53,16 +49,12 @@
             <!-- ACTION BUTTONS -->
             <div class="card">
                 <div class="card-body">
-                    <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Update</button>
                     <button type="button" class="btn btn-secondary btn-lg"
                         onclick="window.location='{{ route('topology.index') }}'">Cancel</button>
                 </div>
             </div>
             <!-- END OF ACTION BUTTONS -->
-
         </form>
-
-        <!-- <div class="bg-danger" style="height: 100vh;"></div> -->
     </main>
-
 @endsection

@@ -57,6 +57,7 @@ class CoreController extends Controller
     public function view(Request $request)
     {
         $cores = Core::all();
+        $lastUpdated = Core::max('last_updated');
         $search = $request->input('search');
         $cores = Core::when($search, function ($query, $search) {
             return $query->where('segment', 'like', '%' . $search . '%')
@@ -89,7 +90,7 @@ class CoreController extends Controller
             ];
         }
 
-        return view('core.pie', compact('chartData'));
+        return view('core.pie', compact('chartData', 'lastUpdated'));
     }
     /**
      * Show the form for creating a new resource.

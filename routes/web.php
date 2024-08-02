@@ -35,7 +35,10 @@ Route::delete('/denah/{id}', [MapController::class, 'destroy'])->name('deleteden
 Route::get('/topology', [TopologyController::class, 'topology'])->name('topology')->middleware(RedirectIfNotAuthenticated::class);
 Route::resource('topology', TopologyController::class)->middleware(RedirectIfNotAuthenticated::class);
 Route::get('/addtopology', [TopologyController::class, 'create'])->name('addtopology')->middleware(RedirectIfNotAuthenticated::class);
-Route::post('/topology/store', [TopologyController::class, 'store'])->name('storetopology'); 
+Route::post('/topology/store', [TopologyController::class, 'store'])->name('storetopology');
+Route::get('/topology/edit/{id}', [TopologyController::class, 'edit'])->name('editTopology')->middleware(RedirectIfNotAuthenticated::class);
+Route::put('/topology/update/{id}', [TopologyController::class, 'update'])->name('updateTopology')->middleware(RedirectIfNotAuthenticated::class);
+Route::delete('/topology/delete/{id}', [TopologyController::class, 'destroy'])->name('deleteTopology')->middleware(RedirectIfNotAuthenticated::class);
 
 // Document
 Route::get('/document', [DocumentController::class, 'index'])->name('Document')->middleware(RedirectIfNotAuthenticated::class);
@@ -58,7 +61,6 @@ Route::delete('/sto/{id}', [STOController::class, 'destroy'])->name('deletesto')
 Route::get('/sto/{id}/edit', [STOController::class, 'edit'])->name('sto.edit')->middleware(RedirectIfNotAuthenticated::class);
 Route::put('/sto/{id}', [STOController::class, 'update'])->name('sto.update');
 
-
 //Room
 Route::get('/room', [RoomController::class, 'index'])->name('room')->middleware(RedirectIfNotAuthenticated::class);
 Route::resource('room', RoomController::class)->middleware(RedirectIfNotAuthenticated::class);
@@ -72,7 +74,7 @@ Route::put('/room/{id}', [RoomController::class, 'update'])->name('room.update')
 //User
 Route::get('/user', [UserController::class, 'show'])->name('user')->middleware(RedirectIfNotAuthenticated::class);
 Route::resource('user', UserController::class)->middleware(RedirectIfNotAuthenticated::class);
-Route::get('/viewuser', [UserController::class, 'show'])->name('viewuser')->middleware([RedirectIfNotAuthenticated::class,CheckUserRole::class . ':0']);
+Route::get('/viewuser', [UserController::class, 'show'])->name('viewuser')->middleware([RedirectIfNotAuthenticated::class, CheckUserRole::class . ':0']);
 Route::get('/adduser', [UserController::class, 'createView'])->name('adduser')->middleware(RedirectIfNotAuthenticated::class);
 Route::post('/storeuser', [UserController::class, 'store'])->name('storeuser');
 Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('deleteuser')->middleware(CheckUserRole::class . ':0');

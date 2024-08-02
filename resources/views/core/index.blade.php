@@ -39,7 +39,7 @@
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                Chart
+                                <i class="bi bi-bar-chart-fill"></i> Bar Chart
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li><a class="dropdown-item" href="{{ route('corepie') }}">Pie Chart</a></li>
