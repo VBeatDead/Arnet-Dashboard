@@ -33,9 +33,8 @@
                                 <div class="col-12 col-md-6 mb-4">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="card-title text-center">{{ $data['device'] }}</h5>
                                             <div class="chart-container items-center">
-                                                <canvas id="barChart-{{ $data['device'] }}-1"></canvas>
+                                                <div id="barChart-{{ $data['device'] }}-1" style="height: 400px;"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -43,9 +42,8 @@
                                 <div class="col-12 col-md-6 mb-4">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="card-title text-center">{{ $data['device'] }}</h5>
                                             <div class="chart-container items-center">
-                                                <canvas id="barChart-{{ $data['device'] }}-2"></canvas>
+                                                <div id="barChart-{{ $data['device'] }}-2" style="height: 400px;"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -57,13 +55,16 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <script>
         const chartData = @json($chartData);
 
         function renderBarChart(data, chartId, isPercentage = false) {
-            const ctx = document.getElementById(chartId).getContext('2d');
-            let chartData = isPercentage ? [
+            var chartDom = document.getElementById(chartId);
+            var myChart = echarts.init(chartDom);
+            var option;
+
+            let chartValues = isPercentage ? [
                 data.percentages.underfive.toFixed(2),
                 data.percentages.morethanfive.toFixed(2),
                 data.percentages.morethanten.toFixed(2)
@@ -73,53 +74,43 @@
                 data.morethanten
             ];
 
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Under 5', '5-10', '10+'],
-                    datasets: [{
-                        label: isPercentage ? 'Percentage of ' + data.device : 'Count of ' + data.device,
-                        data: chartData,
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                    }]
+            option = {
+                title: {
+                    text: isPercentage ? 'Percentage of ' + data.device : 'Count of ' + data.device,
+                    left: 'center'
                 },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: isPercentage ? 50 : 1
-                            }
-                        }
-                    },
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            enabled: false,
-                        },
-                        datalabels: {
-                            anchor: 'center',
-                            align: 'center',
-                            color: 'black',
-                            font: {
-                                weight: 'bold',
-                                size: 14,
-                            },
-                            formatter: function(value, context) {
-                                if (value > 0) {
-                                    return isPercentage ? value + '%' : value;
-                                } else {
-                                    return null;
-                                }
-                            }
-                        }
+                tooltip: {},
+                xAxis: {
+                    type: 'category',
+                    data: ['Under 5', '5-10', '10+']
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: isPercentage ? '{value}%' : '{value}'
                     }
                 },
-                plugins: [ChartDataLabels]
-            });
+                series: [{
+                    name: 'Values',
+                    type: 'bar',
+                    data: chartValues,
+                    itemStyle: {
+                        color: function(params) {
+                            var colorList = ['#FF6384', '#36A2EB', '#FFCE56'];
+                            return colorList[params.dataIndex]
+                        }
+                    },
+                    label: {
+                        show: true,
+                        position: 'top',
+                        formatter: function(params) {
+                            return isPercentage ? params.value + '%' : params.value;
+                        }
+                    }
+                }]
+            };
+
+            option && myChart.setOption(option);
         }
 
         chartData.forEach(data => {
