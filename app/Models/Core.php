@@ -11,11 +11,12 @@ class Core extends Model
 
     protected $fillable = [
         'segment',
+        'asal',
+        'tujuan',
         'ccount',
         'good',
         'bad',
         'used',
         'total',
     ];
-    
 }

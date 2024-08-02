@@ -15,12 +15,18 @@ class CoreController extends Controller
      */
     public function index(Request $request)
     {
-        $cores = Core::all();
         $search = $request->input('search');
         $lastUpdated = Core::max('last_updated');
+
         $cores = Core::when($search, function ($query, $search) {
-            return $query->where('segment', 'like', '%' . $search . '%');
+            return $query->where('segment', 'like', '%' . $search . '%')
+                ->orWhere('asal', 'like', '%' . $search . '%');
         })->get();
+
+        $cores = $cores->filter(function ($core) {
+            return stripos($core->asal, 'ML') !== false && stripos($core->tujuan, 'ML') !== false;
+        });
+
 
         $chartData = [];
         foreach ($cores as $core) {
@@ -46,6 +52,7 @@ class CoreController extends Controller
 
         return view('core.index', compact('chartData', 'lastUpdated'));
     }
+
 
     public function view()
     {

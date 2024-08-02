@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('cores', function (Blueprint $table) {
             $table->id();
             $table->string('segment');
+            $table->string('asal')->nullable()->default(0);
+            $table->string('tujuan')->nullable()->default(0);
             $table->string('ccount')->nullable()->default(0);
             $table->string('good')->nullable()->default(0);
             $table->string('bad')->nullable()->default(0);

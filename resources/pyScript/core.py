@@ -48,27 +48,33 @@ df = pd.read_excel(file_path, sheet_name='Ruas (1)', engine=engine)
 grouped_df = df['Ruas'].value_counts().reset_index()
 grouped_df.columns = ['Ruas', 'Jumlah']
 
+# Process data
 core = df.groupby('Ruas').agg({
     'Idle Baik': 'sum',
     'Idle Rusak': 'sum',
-    'Core Operasi': 'sum'
+    'Core Operasi': 'sum',
+    'Arnet Asal': 'first',  # Mengambil nilai pertama untuk Arnet Asal
+    'Arnet Tujuan': 'first'  # Mengambil nilai pertama untuk Arnet Tujuan
+
 })
 
-core = core.astype(int)
+# Konversi kolom numerik menjadi int
+core[['Idle Baik', 'Idle Rusak', 'Core Operasi']] = core[[
+    'Idle Baik', 'Idle Rusak', 'Core Operasi']].astype(int)
 
-pivot_table = df.pivot_table(
-    index='Ruas',
-    aggfunc={'Idle Baik': 'sum',
-             'Idle Rusak': 'sum',
-             'Core Operasi': 'sum',
-             'Ruas': 'count'
-             },
-)
+# Konversi pivot_table
+pivot_table = core.rename(columns={
+    'Idle Baik': 'good',
+    'Idle Rusak': 'bad',
+    'Core Operasi': 'used',
+    'Arnet Asal': 'asal',
+    'Arnet Tujuan': 'tujuan'
+})
 
-pivot_table = pivot_table.astype(int)
-pivot_table = pivot_table.rename(columns={'Ruas': 'Jumlah Kabel'})
-pivot_table['Total'] = pivot_table[['Idle Baik',
-                                    'Idle Rusak', 'Core Operasi']].sum(axis=1)
+pivot_table['total'] = pivot_table[['good', 'bad', 'used']].sum(axis=1)
+
+# Tambahkan kolom jumlah berdasarkan grup
+pivot_table['Jumlah Kabel'] = grouped_df.set_index('Ruas')['Jumlah']
 
 # Database connection parameters
 db_host = 'localhost'
@@ -89,10 +95,10 @@ try:
     cursor.execute("TRUNCATE TABLE cores")
 
     for index, row in pivot_table.iterrows():
-        sql = """INSERT INTO cores (segment, good, bad, used, ccount, total)
-                    VALUES (%s, %s, %s, %s, %s, %s)"""
-        cursor.execute(sql, (index, row['Idle Baik'], row['Idle Rusak'],
-                             row['Core Operasi'], row['Jumlah Kabel'], row['Total']))
+        sql = """INSERT INTO cores (segment, good, bad, used, ccount, total, asal, tujuan)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+        cursor.execute(sql, (index, row['good'], row['bad'], row['used'],
+                       row['Jumlah Kabel'], row['total'], row['asal'], row['tujuan']))
 
     connection.commit()
 
