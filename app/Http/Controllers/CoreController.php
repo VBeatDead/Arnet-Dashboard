@@ -54,9 +54,18 @@ class CoreController extends Controller
     }
 
 
-    public function view()
+    public function view(Request $request)
     {
         $cores = Core::all();
+        $search = $request->input('search');
+        $cores = Core::when($search, function ($query, $search) {
+            return $query->where('segment', 'like', '%' . $search . '%')
+                ->orWhere('asal', 'like', '%' . $search . '%');
+        })->get();
+
+        $cores = $cores->filter(function ($core) {
+            return stripos($core->asal, 'ML') !== false && stripos($core->tujuan, 'ML') !== false;
+        });
 
         $chartData = [];
         foreach ($cores as $core) {
