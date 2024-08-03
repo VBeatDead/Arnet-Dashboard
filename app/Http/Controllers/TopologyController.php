@@ -30,7 +30,8 @@ class TopologyController extends Controller
 
         $validator = Validator::make($request->all(), [
             'device_id' => 'required|integer|exists:dropdowns,id',
-            'file' => 'required|file|mimes:png,jpg,jpeg|max:2048'
+            'file' => 'required|array',
+            'file.*' => 'file|mimes:png,jpg,jpeg|max:2048'
         ]);
 
         if ($validator->fails()) {
@@ -38,27 +39,30 @@ class TopologyController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $file = $request->file('file');
-        $originalFileName = $file->getClientOriginalName();
-        $fileName = pathinfo($originalFileName, PATHINFO_FILENAME);
-        $extension = $file->getClientOriginalExtension();
-        $filePath = 'uploads/topology/' . $originalFileName;
+        $files = $request->file('file');
 
-        $counter = 1;
-        while (Storage::disk('public')->exists($filePath)) {
-            $newFileName = $fileName . '_' . $counter . '.' . $extension;
-            $filePath = 'uploads/topology/' . $newFileName;
-            $counter++;
+        foreach ($files as $file) {
+            $originalFileName = $file->getClientOriginalName();
+            $fileName = pathinfo($originalFileName, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $filePath = 'uploads/topology/' . $originalFileName;
+
+            $counter = 1;
+            while (Storage::disk('public')->exists($filePath)) {
+                $newFileName = $fileName . '_' . $counter . '.' . $extension;
+                $filePath = 'uploads/topology/' . $newFileName;
+                $counter++;
+            }
+
+            $file->storeAs('uploads/topology', basename($filePath), 'public');
+
+            DB::table('topology')->insert([
+                'file' => basename($filePath),
+                'device_id' => $request->input('device_id'),
+                'last_updated' => now(),
+            ]);
+            Log::info('Topology record inserted', ['file' => basename($filePath), 'device_id' => $request->input('device_id')]);
         }
-
-        $file->storeAs('uploads/topology', basename($filePath), 'public');
-
-        DB::table('topology')->insert([
-            'file' => basename($filePath),
-            'device_id' => $request->input('device_id'),
-            'last_updated' => now(),
-        ]);
-        Log::info('Topology record inserted', ['file' => basename($filePath), 'device_id' => $request->input('device_id')]);
 
         return redirect()->route('topology.index')->with('success', 'Topology file uploaded successfully!');
     }

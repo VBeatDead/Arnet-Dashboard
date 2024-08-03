@@ -12,11 +12,11 @@
 
         <!-- LOGO -->
         <div class="p-3 text-center">
-            <a href="{{ url('img/LOGO BULAT.png') }}">
-                <img src="{{ asset('img/LOGO_PANJANG.png') }}" alt="LOGO TRANSPARAN" class="img-fluid rectangular-logo"
-                    width="150" height="50">
-                <img src="{{ asset('img/LOGO BULAT.png') }}" alt="LOGO BULAT TRANSPARAN" width="50"
-                    class="dark-mode-logo">
+            <a href="{{ url('img/LOGO BULAT.png') }}" class="block">
+                <img src="{{ asset('img/LOGO_PANJANG.png') }}" alt="LOGO TRANSPARAN"
+                    class="img-fluid mx-auto mb-2 rectangular-logo" width="150" height="50">
+                <img src="{{ asset('img/LOGO BULAT.png') }}" alt="LOGO BULAT TRANSPARAN" class="mx-auto dark-mode-logo"
+                    width="50">
             </a>
         </div>
 

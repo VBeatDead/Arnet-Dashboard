@@ -39,3 +39,15 @@
     transition: opacity 300ms;
     opacity: 1;
 }
+.ui.dropdown .text {
+    font-size: 1.1rem;
+}
+
+.ui.dropdown .menu .item {
+    font-size: 1.3rem;
+    padding: 13px;
+}
+
+.ui.dropdown .menu {
+    max-height: 30px;
+}
