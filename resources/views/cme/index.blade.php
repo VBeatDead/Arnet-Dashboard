@@ -39,7 +39,6 @@
                             </p>
                         </div>
                     </div>
-
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered w-100">
                             <thead class="table-secondary text-center">
@@ -51,24 +50,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($grandtotal as $index => $data)
-                                    <tr data-bs-toggle="collapse" data-bs-target="#collapse-{{ $data['id'] }}"
-                                        aria-expanded="false" aria-controls="collapse-{{ $data['id'] }}"
-                                        style="cursor: pointer">
-                                        <td class="text-center">{{ $index + 1 }}</td>
-                                        <td>{{ $data['sto'] }}</td>
-                                        <td class="text-center">{{ $data['total'] }}</td>
-                                        <td class="text-center"><i class="bi bi-chevron-down"></i></td>
+                                @if (count($grandtotal) > 0)
+                                    @foreach ($grandtotal as $index => $data)
+                                        <tr data-bs-toggle="collapse" data-bs-target="#collapse-{{ $data['id'] }}"
+                                            aria-expanded="false" aria-controls="collapse-{{ $data['id'] }}"
+                                            style="cursor: pointer">
+                                            <td class="text-center">{{ $index + 1 }}</td>
+                                            <td>{{ $data['sto'] }}</td>
+                                            <td class="text-center">{{ $data['total'] }}</td>
+                                            <td class="text-center"><i class="bi bi-chevron-down"></i></td>
+                                        </tr>
+                                        <tr id="collapse-{{ $data['id'] }}" class="collapse">
+                                            <td colspan="4">
+                                                <div class="chart-container d-flex justify-content-center align-items-center"
+                                                    style="height:70vh; width:100%">
+                                                    <div id="chart-{{ $data['id'] }}" style="height:100%; width:100%">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="4" class="text-center">No data available in table</td>
                                     </tr>
-                                    <tr id="collapse-{{ $data['id'] }}" class="collapse">
-                                        <td colspan="4">
-                                            <div class="chart-container d-flex justify-content-center align-items-center"
-                                                style="height:70vh; width:100%">
-                                                <div id="chart-{{ $data['id'] }}" style="height:100%; width:100%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
