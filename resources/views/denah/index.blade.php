@@ -78,15 +78,32 @@ if (session()->has('success')):?>
                                                     style="max-width: 100px; max-height: 100px;">
                                             @endif
                                         </td>
-                                        @if ($d->file)
-                                            <td><a href="{{ asset($d->file) }}" title="Download VSD" class="btn btn-info"
-                                                    download><i class="bi bi-download"></i></a>
+                                        @if ($d->file && !$d->converted_image)
+                                            <td>
+                                                <a href="{{ asset($d->file) }}" title="Download VSD" class="btn btn-info"
+                                                    download>
+                                                    <i class="bi bi-download"></i>
+                                                </a>
+                                            </td>
+                                        @elseif ($d->converted_image)
+                                            <td>
+                                                @if ($d->file)
+                                                    <a href="{{ asset($d->file) }}" title="Download VSD"
+                                                        class="btn btn-info" download>
+                                                        <i class="bi bi-download"></i>
+                                                    </a>
+                                                @endif
                                                 <a href="{{ asset($d->converted_image) }}" title="Download IMG"
-                                                    class="btn btn-success  " download><i class="bi bi-download"></i></a>
+                                                    class="btn btn-success" download>
+                                                    <i class="bi bi-download"></i>
+                                                </a>
                                             </td>
                                         @else
-                                            <td><a href="{{ asset($d->converted_image) }}" title="Download IMG"
-                                                    class="btn btn-success  " download><i class="bi bi-download"></i></a>
+                                            <td>
+                                                <a href="{{ asset($d->converted_image) }}" title="Download IMG"
+                                                    class="btn btn-success" download>
+                                                    <i class="bi bi-download"></i>
+                                                </a>
                                             </td>
                                         @endif
                                         <td class="text-center">
