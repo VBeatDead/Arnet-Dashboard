@@ -67,8 +67,7 @@ if (session()->has('success')):?>
                                                     : null;
                                             @endphp
                                             @if ($convertedImageUrl)
-                                                <a href="javascript:void(0);"
-                                                    onclick="showImage('{{ $convertedImageUrl }}')">
+                                                <a data-fancybox="gallery" href="{{ $convertedImageUrl }}">
                                                     <img src="{{ $convertedImageUrl }}" alt="{{ $d->sto->subtype }}"
                                                         class="img-fluid" style="max-width: 100px; max-height: 100px;">
                                                 </a>
@@ -98,10 +97,6 @@ if (session()->has('success')):?>
                                                     data-bs-toggle="modal" data-bs-target="#deleteModal"><i
                                                         class="bi bi-trash"></i></button>
                                             @endif
-                                            {{-- <button type="button" class="btn btn-danger h-20" data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal" onclick="handleDelete({{ $d->id }})">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </button> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -112,13 +107,6 @@ if (session()->has('success')):?>
         </div>
     </div>
     <!-- END OF TABLE -->
-
-    {{-- IMAGE OVERLAY --}}
-    <div id="imageOverlay" class="image-overlay" style="display: none;">
-        <span class="close-btn" onclick="closeImageOverlay()">&times;</span>
-        <img id="overlayImage" src="" class="overlay-image">
-    </div>
-    {{-- END OF IMAGE OVERLAY --}}
 
     <!-- DELETE MODAL -->
     <div class="modal fade" id="deleteModal">
@@ -143,8 +131,6 @@ if (session()->has('success')):?>
     </div>
     <!-- END OF DELETE MODAL -->
 
-
-
 @endsection
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -163,13 +149,4 @@ if (session()->has('success')):?>
             deleteIdInput.value = id;
         });
     });
-
-    function showImage(imageUrl) {
-        document.getElementById('overlayImage').src = imageUrl;
-        document.getElementById('imageOverlay').style.display = "block";
-    }
-
-    function closeImageOverlay() {
-        document.getElementById('imageOverlay').style.display = "none";
-    }
 </script>

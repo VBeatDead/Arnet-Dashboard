@@ -66,7 +66,7 @@
                                                 $evidence = $d->evidence ? asset('storage/' . $d->evidence) : null;
                                             @endphp
                                             @if ($evidence)
-                                                <a href="javascript:void(0);" onclick="showImage('{{ $evidence }}')">
+                                                <a data-fancybox="gallery" href="{{ $evidence }}">
                                                     <img src="{{ $evidence }}" alt="{{ $d->name }}"
                                                         class="img-fluid" style="max-width: 100px; max-height: 100px;">
                                                 </a>
@@ -112,13 +112,6 @@
     </div>
     <!-- END OF TABLE -->
 
-    {{-- IMAGE OVERLAY --}}
-    <div id="imageOverlay" class="image-overlay" style="display: none;">
-        <span class="close-btn" onclick="closeImageOverlay()">&times;</span>
-        <img id="overlayImage" src="" class="overlay-image">
-    </div>
-    {{-- END OF IMAGE OVERLAY --}}
-
     <!-- DELETE MODAL -->
     <div class="modal fade" id="handleDelete">
         <div class="modal-dialog modal-dialog-scrollable">
@@ -161,15 +154,6 @@
             deleteIdInput.value = id;
         });
     });
-
-    function showImage(imageUrl) {
-        document.getElementById('overlayImage').src = imageUrl;
-        document.getElementById('imageOverlay').style.display = "block";
-    }
-
-    function closeImageOverlay() {
-        document.getElementById('imageOverlay').style.display = "none";
-    }
 
     function showPDF(url) {
         window.open(url, '_blank');

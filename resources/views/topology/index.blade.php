@@ -56,10 +56,11 @@
                                         </td>
                                         <td>{{ $topology->device_type }}</td>
                                         <td>
-                                            <img src="{{ asset('storage/uploads/topology/' . $topology->file) }}"
-                                                width="100"
-                                                onclick="showImage('{{ asset('storage/uploads/topology/' . $topology->file) }}')"
-                                                style="cursor: pointer;">
+                                            <a data-fancybox="gallery"
+                                                href="{{ asset('storage/uploads/topology/' . $topology->file) }}">
+                                                <img src="{{ asset('storage/uploads/topology/' . $topology->file) }}"
+                                                    width="100" style="cursor: pointer;">
+                                            </a>
                                         </td>
                                         <td>{{ $topology->last_updated }}</td>
                                         <td class="text-center">
@@ -82,13 +83,6 @@
         </div>
     </div>
     <!-- END OF TABLE -->
-
-    {{-- IMAGE OVERLAY --}}
-    <div id="imageOverlay" class="image-overlay" style="display: none;">
-        <span class="close-btn" onclick="closeImageOverlay()">&times;</span>
-        <img id="overlayImage" src="" class="overlay-image">
-    </div>
-    {{-- END OF IMAGE OVERLAY --}}
 
     <!-- DELETE MODAL -->
     <div class="modal fade" id="deleteModal">
@@ -131,13 +125,4 @@
             deleteIdInput.value = id;
         });
     });
-
-    function showImage(imageUrl) {
-        document.getElementById('overlayImage').src = imageUrl;
-        document.getElementById('imageOverlay').style.display = "block";
-    }
-
-    function closeImageOverlay() {
-        document.getElementById('imageOverlay').style.display = "none";
-    }
 </script>
