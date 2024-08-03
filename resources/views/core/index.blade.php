@@ -26,25 +26,25 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title text-uppercase">Core Potential</h6>
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
+                    <h5 class="card-title text-uppercase">Core Potential</h5>
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center">
                             <a href="{{ route('addcore') }}" class="btn btn-primary mb-4 mt-3">
                                 <i class="bi bi-plus me-3"></i>Insert New Core Potential
                             </a>
-                            <p>Last updated:
-                                {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->format('d M Y H:i:s') : 'Never' }}
-                            </p>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle mb-4 mt-3" type="button"
+                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-bar-chart-fill"></i> Bar Chart
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" href="{{ route('corepie') }}">Pie Chart</a></li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-bar-chart-fill"></i> Bar Chart
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="{{ route('corepie') }}">Pie Chart</a></li>
-                            </ul>
-                        </div>
+                        <p>Last updated:
+                            {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->format('d M Y H:i:s') : 'Never' }}
+                        </p>
                     </div>
                     <div class="mb-4">
                         <div class="input-group">

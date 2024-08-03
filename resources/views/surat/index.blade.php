@@ -27,8 +27,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title text-uppercase">Documents</h6>
-                    <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title text-uppercase">Asset Idle</h5>
                         <a href="{{ route('adddocument') }}" class="btn btn-primary mb-4 mt-3">
                             <i class="bi bi-plus me-3"></i>Create New Document
                         </a>
@@ -96,10 +96,9 @@
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                             @if ($user->role == '0')
-                                            <button title="Delete" class="btn btn-danger" data-id="{{ $d->id }}"
-                                                data-bs-toggle="modal" data-bs-target="#handleDelete"><i
-                                                    class="bi bi-trash"></i></button>
-                                            
+                                                <button title="Delete" class="btn btn-danger" data-id="{{ $d->id }}"
+                                                    data-bs-toggle="modal" data-bs-target="#handleDelete"><i
+                                                        class="bi bi-trash"></i></button>
                                             @endif
                                         </td>
                                     </tr>

@@ -27,8 +27,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title text-uppercase">Topology</h6>
-                    <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title text-uppercase">Topology</h5>
                         <a href="{{ route('addtopology') }}" class="btn btn-primary mb-4 mt-3">
                             <i class="bi bi-plus me-3"></i>Insert New Topology
                         </a>

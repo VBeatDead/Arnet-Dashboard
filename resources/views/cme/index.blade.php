@@ -32,8 +32,8 @@
                             <i class="bi bi-plus"></i> Insert New CME Potential
                         </a>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-12 text-end">
+                    <div class="row">
+                        <div class="col-12 text-start">
                             <p>Last updated:
                                 {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->format('d M Y H:i:s') : 'Never' }}
                             </p>

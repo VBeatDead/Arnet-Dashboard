@@ -26,15 +26,15 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title text-uppercase">Core Potential</h6>
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title text-uppercase">Core Potential</h5>
+                    <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <a href="{{ route('addcore') }}" class="btn btn-primary mb-4 mt-3">
                                 <i class="bi bi-plus me-3"></i>Insert New Core Potential
                             </a>
                         </div>
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            <button class="btn btn-primary dropdown-toggle mb-4 mt-3" type="button" id="dropdownMenuButton"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-pie-chart-fill"></i> Pie Chart
                             </button>
@@ -44,7 +44,6 @@
                         </div>
                     </div>
 
-                    <!-- Menampilkan tanggal dan waktu terakhir diperbarui -->
                     <p>Last updated:
                         {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->format('d M Y H:i:s') : 'Never' }}
                     </p>
