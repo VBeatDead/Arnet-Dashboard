@@ -59,7 +59,7 @@
                                             <a data-fancybox="gallery"
                                                 href="{{ asset('storage/uploads/topology/' . $topology->file) }}">
                                                 <img src="{{ asset('storage/uploads/topology/' . $topology->file) }}"
-                                                    width="100" style="cursor: pointer;">
+                                                    width="100" class="img-fluid lazyload" style="cursor: pointer;">
                                             </a>
                                         </td>
                                         <td>{{ $topology->last_updated }}</td>

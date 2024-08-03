@@ -31,3 +31,11 @@
     font-size: 40px;
     cursor: pointer;
 }
+.lazyloading {
+    opacity: 0.5;
+}
+
+.lazyloaded {
+    transition: opacity 300ms;
+    opacity: 1;
+}

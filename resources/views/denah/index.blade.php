@@ -68,11 +68,12 @@ if (session()->has('success')):?>
                                             @endphp
                                             @if ($convertedImageUrl)
                                                 <a data-fancybox="gallery" href="{{ $convertedImageUrl }}">
-                                                    <img src="{{ $convertedImageUrl }}" alt="{{ $d->sto->subtype }}"
-                                                        class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                                                    <img data-src="{{ $convertedImageUrl }}" alt="{{ $d->sto->subtype }}"
+                                                        class="img-fluid lazyload"
+                                                        style="max-width: 100px; max-height: 100px;">
                                                 </a>
                                             @else
-                                                <img src="public\img\403-error-forbidden-animate.svg"
+                                                <img src="public/img/403-error-forbidden-animate.svg"
                                                     alt="No image available" class="img-fluid"
                                                     style="max-width: 100px; max-height: 100px;">
                                             @endif

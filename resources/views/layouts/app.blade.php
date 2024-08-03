@@ -32,6 +32,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
 
+    {{-- lazysizes  --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async></script>
+
     <!-- Theme Color -->
     <meta name="theme-color" content="#008080">
     <!-- <meta name="theme-color" content="#0d6efd"> -->

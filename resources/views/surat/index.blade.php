@@ -68,7 +68,8 @@
                                             @if ($evidence)
                                                 <a data-fancybox="gallery" href="{{ $evidence }}">
                                                     <img src="{{ $evidence }}" alt="{{ $d->name }}"
-                                                        class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                                                        class="img-fluid lazyload"
+                                                        style="max-width: 100px; max-height: 100px;">
                                                 </a>
                                             @else
                                                 <img src="{{ asset('img/no-image-available.png') }}"
