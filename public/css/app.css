@@ -51,3 +51,9 @@
 .ui.dropdown .menu {
     max-height: 30px;
 }
+.pace {
+    background-color: #ee2e24 !important;
+}
+.pace .pace-progress {
+    background-color: #ee2e24 !important;
+}

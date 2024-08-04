@@ -28,44 +28,43 @@
         </div>
     @endif
 
-    <main class="bd-main p-3 bg-light">
+    <main class="p-5 bg-gray-100">
         <form action="{{ route('cme.store') }}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label for="file" class="form-label">CME Potential</label>
-                        <input class="form-control" type="file" id="file" name="file" accept=".xlsx, .xls">
-                        <div class="italic">
-                            <span>File type must be Excel format</span>
+            <div class="bg-white shadow-lg rounded-lg p-6 mb-5">
+                <div>
+                    <label for="file" class="block text-lg font-medium text-gray-700 mb-2">Upload File</label>
+                    <div x-data="{ file: null }" class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                        <div class="relative w-full flex items-center justify-center border-2 border-gray-300 rounded-lg">
+                            <input type="file" id="file" name="file" accept=".xlsx, .xls" x-ref="fileInput"
+                                @change="file = $refs.fileInput.files[0]"
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                            <p class="text-gray-500 pointer-events-none p-20" x-show="!file">Drag & Drop file here or click
+                                to upload</p>
+                            <template x-if="file">
+                                <div class="w-full flex flex-col items-center">
+                                    <div class="w-16 h-16 mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full text-blue-500"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path
+                                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-.586-1.414l-4-4A2 2 0 0012 1H4a2 2 0 00-2 2zm1.5 4.5a.5.5 0 01.5-.5h2a.5.5 0 010 1h-2a.5.5 0 01-.5-.5zm0 2a.5.5 0 01.5-.5h7a.5.5 0 010 1h-7a.5.5 0 01-.5-.5zm0 2a.5.5 0 01.5-.5h7a.5.5 0 010 1h-7a.5.5 0 01-.5-.5zm8-8.121L14.121 4H14v-.621z" />
+                                        </svg>
+                                    </div>
+                                    <p class="text-gray-700 text-sm" x-text="file.name"></p>
+                                </div>
+                            </template>
                         </div>
                     </div>
-                    <!-- ACTION BUTTONS -->
-                    <div class="card">
-                        <div class="card-body">
-                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                            <button type="button" class="btn btn-secondary btn-lg"
-                                onclick="window.location='{{ route('cme.index') }}'">Cancel</button>
-                        </div>
-                    </div>
-                    <!-- END OF ACTION BUTTONS -->
+                    <div class="text-sm text-gray-500 mt-2">File type must be Excel format (.xlsx, .xls).</div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg p-3 flex justify-between space-x-4">
+                <button type="button" class="btn btn-secondary btn-lg"
+                    onclick="window.location='{{ route('cme.index') }}'">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-lg">Save</button>
+            </div>
         </form>
     </main>
-
-    <script>
-        function toggleYearInput() {
-            var status = document.getElementById('status').value;
-            var yearInput = document.getElementById('yearInput');
-            if (status === 'scrap') {
-                yearInput.style.display = 'block';
-            } else {
-                yearInput.style.display = 'none';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleYearInput();
-        });
-    </script>
-
+    <x-libs type="form" />
 @endsection

@@ -78,10 +78,7 @@ class CmeController extends Controller
         }
         $request->file('file')->storeAs('cme', $fileName, 'public');
         shell_exec("python ../resources/pyScript/cme.py");
-
-        // Update the last updated timestamp for all records
         DB::table('cmes')->update(['last_updated' => now()]);
-
         return redirect()->route('cme.index')->with('success', 'File berhasil diupload.');
     }
 
