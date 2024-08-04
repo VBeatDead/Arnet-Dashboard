@@ -15,3 +15,13 @@
         });
     </script>
 @endif
+
+@if ($type === 'load')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Pace.restart();
+        });
+    </script>
+@endif

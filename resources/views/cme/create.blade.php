@@ -42,13 +42,10 @@
                             <p class="text-gray-500 pointer-events-none p-20" x-show="!file">Drag & Drop file here or click
                                 to upload</p>
                             <template x-if="file">
-                                <div class="w-full flex flex-col items-center">
+                                <div class="w-full flex flex-col items-center p-3">
                                     <div class="w-16 h-16 mb-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full text-blue-500"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-.586-1.414l-4-4A2 2 0 0012 1H4a2 2 0 00-2 2zm1.5 4.5a.5.5 0 01.5-.5h2a.5.5 0 010 1h-2a.5.5 0 01-.5-.5zm0 2a.5.5 0 01.5-.5h7a.5.5 0 010 1h-7a.5.5 0 01-.5-.5zm0 2a.5.5 0 01.5-.5h7a.5.5 0 010 1h-7a.5.5 0 01-.5-.5zm8-8.121L14.121 4H14v-.621z" />
-                                        </svg>
+                                        <img src="{{ asset('img/attachment.png') }}" alt="Uploaded File"
+                                            class="w-full h-full object-cover">
                                     </div>
                                     <p class="text-gray-700 text-sm" x-text="file.name"></p>
                                 </div>

@@ -29,9 +29,10 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title text-uppercase">STO</h5>
-                        <a href="{{ route('addsto') }}" class="btn btn-primary mb-4 mt-3">
+                        <button type="button" class="btn btn-primary mb-4 mt-3" data-bs-toggle="modal"
+                            data-bs-target="#createSTOModal">
                             <i class="bi bi-plus me-3"></i>Create New STO Location
-                        </a>
+                        </button>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered w-100" id="table">
@@ -48,9 +49,11 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $sto->subtype }}</td>
                                         <td>
-                                            <a href="{{ route('sto.edit', ['id' => $sto->id]) }}" class="btn btn-warning">
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#editSTOModal" data-id="{{ $sto->id }}"
+                                                data-name="{{ $sto->subtype }}">
                                                 <i class="bi bi-pencil"></i>
-                                            </a>
+                                            </button>
                                             @if ($user->role == '0')
                                                 <button title="Delete" class="btn btn-danger" data-id="{{ $sto->id }}"
                                                     data-bs-toggle="modal" data-bs-target="#handleDelete"><i
@@ -68,12 +71,65 @@
     </div>
     <!-- END OF TABLE -->
 
-    {{-- IMAGE OVERLAY --}}
-    <div id="imageOverlay" class="image-overlay" style="display: none;">
-        <span class="close-btn" onclick="closeImageOverlay()">&times;</span>
-        <img id="overlayImage" src="" class="overlay-image">
+    <!-- CREATE STO MODAL -->
+    <div class="modal fade" id="createSTOModal" tabindex="-1" aria-labelledby="createSTOModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createSTOModalLabel">Create New STO Location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/storesto" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" id="name" name="name" value="{{ old('name') }}"
+                                class="form-control block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                required>
+                        </div>
+                        <div id="popbtn">
+                            <button type="button" id="cencl" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    {{-- END OF IMAGE OVERLAY --}}
+    <!-- END OF CREATE STO MODAL -->
+
+    <!-- EDIT STO MODAL -->
+    <div class="modal fade" id="editSTOModal" tabindex="-1" aria-labelledby="editSTOModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSTOModalLabel">Edit STO Location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editSTOForm" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="id" id="editSTOId">
+                        <div class="mb-4">
+                            <label for="editSTOName" class="form-label">Name</label>
+                            <input type="text" id="editSTOName" name="name"
+                                class="form-control block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                required>
+                        </div>
+                        <div id="popbtn" class="d-flex justify-between">
+                            <button id="cencl" type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END OF EDIT STO MODAL -->
 
     <!-- DELETE MODAL -->
     <div class="modal fade" id="handleDelete">
@@ -89,15 +145,13 @@
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="id" id="deleteId">
-                        <button type="submit" class="btn btn-primary">Delete</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <div id="popbtn">
+                            <button id="cencl" type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </div>
                     </form>
                 </div>
-
-                <!-- <div class="modal-footer">
-                                    <a href="javascript:void(0)" class="btn btn-danger">Delete</a>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                </div> -->
             </div>
         </div>
     </div>
@@ -106,11 +160,6 @@
 @endsection
 
 <script>
-    // const handleDelete = (id) => {
-    //     const form = document.getElementById('deleteForm');
-    //     form.action = `/document/${id}`;
-    // };
-
     document.addEventListener('DOMContentLoaded', function() {
         var handleDelete = document.getElementById('handleDelete');
         handleDelete.addEventListener('show.bs.modal', function(event) {
@@ -126,18 +175,23 @@
             deleteForm.action = action;
             deleteIdInput.value = id;
         });
+
+        var editSTOModal = document.getElementById('editSTOModal');
+        editSTOModal.addEventListener('show.bs.modal', function(event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+            var name = button.getAttribute('data-name');
+
+            var editForm = document.getElementById('editSTOForm');
+            var editSTOIdInput = document.getElementById('editSTOId');
+            var editSTONameInput = document.getElementById('editSTOName');
+
+            var action = "{{ route('sto.update', ':id') }}";
+            action = action.replace(':id', id);
+
+            editForm.action = action;
+            editSTOIdInput.value = id;
+            editSTONameInput.value = name;
+        });
     });
-
-    function showImage(imageUrl) {
-        document.getElementById('overlayImage').src = imageUrl;
-        document.getElementById('imageOverlay').style.display = "block";
-    }
-
-    function closeImageOverlay() {
-        document.getElementById('imageOverlay').style.display = "none";
-    }
-
-    function showPDF(url) {
-        window.open(url, '_blank');
-    }
 </script>

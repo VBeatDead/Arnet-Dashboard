@@ -32,12 +32,12 @@ class RoomController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
+
         $room = new Dropdown;
         $room->type = 'room';
         $room->subtype = $request->name;
         $room->save();
-        return redirect('/room');
+        return redirect('/room')->with('success', 'STO successfully created');
     }
 
     public function edit($id)
@@ -49,15 +49,24 @@ class RoomController extends Controller
     public function update(Request $request, $id)
     {
         $room = Dropdown::find($id);
-        $room->subtype = $request->name;
-        $room->save();
-        return redirect('/room');
+
+        if ($room) {
+            $room->subtype = $request->name;
+            $room->save();
+            return redirect('/room')->with('success', 'Room updated successfully.');
+        } else {
+            return redirect('/room')->with('error', 'Room not found.');
+        }
     }
     public function destroy($id)
     {
         $room = Dropdown::find($id);
-        $room->delete();
-        return redirect('/room');
-    }
 
+        if ($room) {
+            $room->delete();
+            return redirect('/room')->with('success', 'Room deleted successfully.');
+        } else {
+            return redirect('/room')->with('error', 'Room not found.');
+        }
+    }
 }

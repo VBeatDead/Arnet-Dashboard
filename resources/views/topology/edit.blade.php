@@ -64,7 +64,7 @@
                 </div>
             </div>
 
-            <div class="bg-white shadow-lg rounded-lg p-4 flex justify-between space-x-4">
+            <div class="bg-white shadow-lg rounded-lg p-3 flex justify-between space-x-4">
                 <button type="button" class="btn btn-secondary btn-lg"
                     onclick="window.location='{{ route('topology.index') }}'">Cancel</button>
                 <button type="submit" class="btn btn-primary btn-lg">Update</button>

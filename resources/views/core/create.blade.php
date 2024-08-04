@@ -1,9 +1,9 @@
-<!-- resources/views/document/create.blade.php -->
 @extends('layouts.app')
 
 @section('title', 'Telkom | Add Document')
 
 @section('content')
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -28,45 +28,41 @@
         </div>
     @endif
 
-    <main class="bd-main p-3 bg-light">
+    <main class="p-5 bg-gray-100">
         <form action="{{ route('core.store') }}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label for="file" class="form-label">Core Potential</label>
-                        <input class="form-control" type="file" id="file" name="file"
-                            accept=".xlsx, .xls">
-                        <div class="italic">
-                            <span>File type must be Excel format</span>
+            <div class="bg-white shadow-lg rounded-lg p-6 mb-5">
+                <div>
+                    <label for="file" class="block text-lg font-medium text-gray-700 mb-2">Upload File</label>
+                    <div x-data="{ file: null }" class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                        <div class="relative w-full flex items-center justify-center border-2 border-gray-300 rounded-lg">
+                            <input type="file" id="file" name="file" accept=".xlsx, .xls" x-ref="fileInput"
+                                @change="file = $refs.fileInput.files[0]"
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                            <p class="text-gray-500 pointer-events-none p-20" x-show="!file">Drag & Drop file here or click
+                                to upload</p>
+                            <template x-if="file">
+                                <div class="w-full flex flex-col items-center p-3">
+                                    <div class="w-16 h-16 mb-4">
+                                        <img src="{{ asset('img/attachment.png') }}" alt="Uploaded File"
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                    <p class="text-gray-700 text-sm" x-text="file.name"></p>
+                                </div>
+                            </template>
                         </div>
                     </div>
-                    <!-- ACTION BUTTONS -->
-                    <div class="card">
-                        <div class="card-body">
-                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                            <button type="button" class="btn btn-secondary btn-lg"
-                                onclick="window.location='{{ route('core.index') }}'">Cancel</button>
-                        </div>
-                    </div>
-                    <!-- END OF ACTION BUTTONS -->
+                    <div class="text-sm text-gray-500 mt-2">File type must be Excel format (.xlsx, .xls).</div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg p-3 flex justify-between space-x-4">
+                <button type="button" class="btn btn-secondary btn-lg"
+                    onclick="window.location='{{ route('core.index') }}'">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-lg">Save</button>
+            </div>
         </form>
     </main>
 
-    <script>
-        function toggleYearInput() {
-            var status = document.getElementById('status').value;
-            var yearInput = document.getElementById('yearInput');
-            if (status === 'scrap') {
-                yearInput.style.display = 'block';
-            } else {
-                yearInput.style.display = 'none';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleYearInput();
-        });
-    </script>
-
+    <x-libs type="form" />
 @endsection

@@ -27,8 +27,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title text-uppercase">Documents</h6>
-                <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title text-uppercase">User</h5>
                     <a href="{{ route('adduser') }}" class="btn btn-primary mb-4 mt-3">
                         <i class="bi bi-plus me-3"></i>Create New User
                     </a>
@@ -98,11 +98,6 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </form>
             </div>
-
-            <!-- <div class="modal-footer">
-                <a href="javascript:void(0)" class="btn btn-danger">Delete</a>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            </div> -->
         </div>
     </div>
 </div>
@@ -111,11 +106,6 @@
 @endsection
 
 <script>
-    // const handleDelete = (id) => {
-    //     const form = document.getElementById('deleteForm');
-    //     form.action = `/document/${id}`;
-    // };
-
     document.addEventListener('DOMContentLoaded', function () {
         var handleDelete = document.getElementById('handleDelete');
         handleDelete.addEventListener('show.bs.modal', function (event) {
@@ -132,17 +122,4 @@
             deleteIdInput.value = id;
         });
     });
-
-    function showImage(imageUrl) {
-        document.getElementById('overlayImage').src = imageUrl;
-        document.getElementById('imageOverlay').style.display = "block";
-    }
-
-    function closeImageOverlay() {
-        document.getElementById('imageOverlay').style.display = "none";
-    }
-
-    function showPDF(url) {
-        window.open(url, '_blank');
-    }
 </script>

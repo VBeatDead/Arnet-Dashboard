@@ -37,7 +37,7 @@ class STOController extends Controller
         $sto->type = 'sto';
         $sto->subtype = $request->name;
         $sto->save();
-        return redirect('/sto');
+        return redirect('/sto')->with('success', 'STO successfully created');
     }
 
     public function edit($id)
@@ -48,16 +48,32 @@ class STOController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $sto = Dropdown::find($id);
-        $sto->subtype = $request->name;
-        $sto->save();
-        return redirect('/sto');
+        if ($sto) {
+            $sto->subtype = $request->name;
+            $sto->save();
+            return redirect('/sto')->with('success', 'STO successfully updated');
+        } else {
+            return redirect('/sto')->with('error', 'STO not found');
+        }
     }
 
     public function destroy($id)
     {
         $sto = Dropdown::find($id);
-        $sto->delete();
-        return redirect('/sto');
+        if ($sto) {
+            $sto->delete();
+            return redirect('/sto')->with('success', 'STO successfully deleted');
+        } else {
+            return redirect('/sto')->with('error', 'STO not found');
+        }
     }
 }

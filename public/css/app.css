@@ -57,3 +57,10 @@
 .pace .pace-progress {
     background-color: #ee2e24 !important;
 }
+#popbtn {
+    display: flex;
+    justify-content: flex-end;
+}
+#cencl {
+    margin-right: 10px;
+}
