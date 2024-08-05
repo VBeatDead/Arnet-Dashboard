@@ -127,8 +127,11 @@
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="id" id="deleteId">
-                        <button type="submit" class="btn btn-primary">Delete</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <div id="popbtn">
+                            <button id="cencl" type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </div>
                     </form>
                 </div>
             </div>
