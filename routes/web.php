@@ -12,6 +12,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\CoreController;
 use App\Http\Controllers\CmeController;
 use App\Http\Controllers\TopologyController;
+use App\Http\Controllers\DeviceController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -70,6 +71,13 @@ Route::post('/storeroom', [RoomController::class, 'store'])->name('storeroom');
 Route::delete('/room/{id}', [RoomController::class, 'destroy'])->name('deleteroom')->middleware(CheckUserRole::class . ':0');
 Route::get('/room/{id}/edit', [RoomController::class, 'edit'])->name('room.edit')->middleware(RedirectIfNotAuthenticated::class);
 Route::put('/room/{id}', [RoomController::class, 'update'])->name('room.update');
+
+//Device
+Route::get('/device', [DeviceController::class, 'index'])->name('device.index');
+Route::get('/viewdevice', [RoomController::class, 'index'])->name('viewdevice')->middleware(RedirectIfNotAuthenticated::class);
+Route::post('/storedevice', [DeviceController::class, 'store'])->name('device.store');
+Route::put('/device/{id}', [DeviceController::class, 'update'])->name('device.update');
+Route::delete('/device/{id}', [DeviceController::class, 'destroy'])->name('deletedevice');
 
 //User
 Route::get('/user', [UserController::class, 'show'])->name('user')->middleware(RedirectIfNotAuthenticated::class);
