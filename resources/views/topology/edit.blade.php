@@ -21,14 +21,14 @@
             <div class="bg-white shadow-lg rounded-lg p-6 mb-5">
                 <div class="mb-4">
                     <label for="file" class="block text-lg font-medium text-gray-700 mb-2">Upload File</label>
-                    <div x-data="{ file: null }" class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-                        <div class="relative w-full flex items-center justify-center border-2 border-gray-300 rounded-lg">
+                    <div x-data="{ file: null, hasPreviousFile: {{ $topology->file ? 'true' : 'false' }} }" class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                        <div
+                            class="relative w-full flex items-center justify-center border-2 border-gray-300 rounded-lg overflow-hidden">
                             <input type="file" id="file" name="file" accept=".png, .jpg, .jpeg" x-ref="fileInput"
                                 @change="file = $refs.fileInput.files[0]"
                                 class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                            <p class="text-gray-500 pointer-events-none p-20" x-show="!file">Drag & Drop file here or click
-                                to
-                                upload</p>
+                            <p class="text-gray-500 pointer-events-none p-20" x-show="!file && !hasPreviousFile">Drag & Drop
+                                file here or click to upload</p>
                             <template x-if="file">
                                 <div class="w-full flex flex-col items-center">
                                     <img :src="URL.createObjectURL(file)" alt="Preview"
@@ -36,15 +36,20 @@
                                     <p class="text-gray-700 text-sm" x-text="file.name"></p>
                                 </div>
                             </template>
+                            @if ($topology->file)
+                                <template x-if="!file">
+                                    <div class="w-full flex flex-col items-center">
+                                        <img src="{{ asset('storage/uploads/topology/' . $topology->file) }}"
+                                            alt="Previous File" class="w-full object-contain rounded-lg"
+                                            style="max-height: 480px;">
+                                        <p class="text-gray-700 text-sm">{{ $topology->file }}</p>
+                                    </div>
+                                </template>
+                            @endif
                         </div>
                     </div>
                     <div class="text-sm text-gray-500 mt-2">File type must be png, jpg, jpeg.</div>
-                    @if ($topology->file)
-                        <p class="mt-2">Current File: <a href="{{ asset('storage/uploads/topology/' . $topology->file) }}"
-                                download class="text-blue-500">{{ $topology->file }}</a></p>
-                    @endif
                 </div>
-
                 <div class="mb-4">
                     <label for="device_id" class="block text-lg font-medium text-gray-700 mb-2">Device Type</label>
                     <div class="ui fluid search selection dropdown">
