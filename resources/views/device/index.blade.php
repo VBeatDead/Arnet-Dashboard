@@ -35,7 +35,7 @@
                         </button>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered w-100" id="deviceTable">
+                        <table class="table table-striped table-bordered w-100" id="table">
                             <thead class="text-center">
                                 <tr>
                                     <th>No</th>
@@ -72,7 +72,8 @@
     <!-- END OF TABLE -->
 
     <!-- CREATE DEVICE MODAL -->
-    <div class="modal fade" id="createDeviceModal" tabindex="-1" aria-labelledby="createDeviceModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createDeviceModal" tabindex="-1" aria-labelledby="createDeviceModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

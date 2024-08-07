@@ -32,13 +32,20 @@ class DeviceController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
+
+        $exists = Dropdown::where('type', 'topology')->where('subtype', $request->name)->exists();
+
+        if ($exists) {
+            return redirect()->back()->with('errors', ['The Topology location already exists.'])->withInput();
+        }
+
         $device = new Dropdown;
-        $device-> type = 'topology';
+        $device->type = 'topology';
         $device->subtype = $request->name;
         $device->save();
 
-        return redirect('/device')->with('success', 'Device successfully created');    }
+        return redirect('/device')->with('success', 'Device successfully created');
+    }
 
     public function update(Request $request, $id)
     {
