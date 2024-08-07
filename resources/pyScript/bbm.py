@@ -4,8 +4,8 @@ import pymysql
 import os
 
 # Path to Excel files
-file_xlsx = './storage/app/public/bbm/bbm.xlsx'
-file_xls = './storage/app/public/bbm/bbm.xls'
+file_xlsx = '../storage/app/public/bbm/Bbm.xlsx'
+file_xls = '../storage/app/public/bbm/Bbm.xls'
 
 # Check if the file exists
 file_exists_xlsx = os.path.exists(file_xlsx)

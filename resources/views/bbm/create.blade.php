@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Telkom | Add CME Document')
+@section('title', 'Telkom | Upload BBM Data')
 
 @section('content')
 
@@ -29,7 +29,7 @@
     @endif
 
     <main class="p-5 bg-gray-100">
-        <form action="{{ route('cme.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('bbm.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="bg-white shadow-lg rounded-lg p-6 mb-5">
                 <div>
@@ -58,8 +58,8 @@
 
             <div class="bg-white shadow-lg rounded-lg p-3 flex justify-between space-x-4">
                 <button type="button" class="btn btn-secondary btn-lg"
-                    onclick="window.location='{{ route('cme.index') }}'">Cancel</button>
-                <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                    onclick="window.location='{{ route('bbm.index') }}'">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-lg">Upload</button>
             </div>
         </form>
     </main>

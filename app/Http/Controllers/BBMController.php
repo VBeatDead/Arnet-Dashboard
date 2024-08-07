@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class BBMController extends Controller
 {
@@ -47,5 +48,26 @@ class BBMController extends Controller
             'availableStos' => $uniqueStos,
             'currentStoId' => $stoId
         ]);
+    
+    }
+
+    public function create()
+    {
+        return view('bbm.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls|max:2048',
+        ]);
+        $fileName = 'Bbm.' . $request->file('file')->getClientOriginalExtension();
+        if (Storage::disk('public')->exists('bbm/' . $fileName)) {
+            Storage::disk('public')->delete('bbm/' . $fileName);
+        }
+        $request->file('file')->storeAs('bbm', $fileName, 'public');
+        shell_exec("python ../resources/pyScript/bbm.py");
+    
+        return redirect()->route('bbm.index')->with('success', 'File berhasil diupload.');
     }
 }
