@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bbm', function (Blueprint $table) {
+            $table->id();
             $table->string('Lokasi')->nullable();
             $table->string('STO')->nullable();
             $table->integer('BBM_L')->nullable();
