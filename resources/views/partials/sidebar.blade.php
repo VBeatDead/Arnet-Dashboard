@@ -30,11 +30,13 @@
                         @if (Session::get('user_role') == 0)
                             <button class="accordion-button text-bg-dark shadow-none p-0 py-3" type="button"
                                 data-bs-toggle="collapse" data-bs-target="#submenu-admin">
-                                ADMIN
+                                <h6>
+                                    ADMIN
+                                </h6>
                             </button>
                         @else
-                            <button class="accordion-button text-bg-dark shadow-none p-0 py-3" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#submenu-admin">
+                            <button class="accordion-button text-bg-dark shadow-none p-0 py-3 size-20" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#submenu-user">
                                 USER
                             </button>
                         @endif
@@ -44,26 +46,47 @@
                     <div id="submenu-admin" class="accordion-collapse collapse show">
                         <div class="accordion-body p-0 px-3">
                             <div class="list-group list-group-flush">
+                                <h6 class="text-uppercase text-gray-700 mt-1 mb-1 mr-9 small-text">Dashboard</h6>
                                 <a href="{{ url('/denah') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('denah') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Dashboard">
                                     <i class="bi bi-layout-text-sidebar me-3"></i>
                                     <span class="submenu-title">STO Layout</span>
                                 </a>
-
                                 <a href="{{ url('/topology') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('topology') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Topology">
                                     <i class="bi bi-diagram-3 me-3"></i>
                                     <span class="submenu-title">STO Topology</span>
                                 </a>
-                                <!-- Add More Menus -->
                                 <a href="{{ url('/document') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('document') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
                                     <i class="bi bi-archive me-3"></i>
                                     <span class="submenu-title">Asset Idle</span>
                                 </a>
+
+                                <h6 class="text-uppercase text-gray-700 mt-3 mb-1 small-text">Reports</h6>
+                                <a href="{{ url('/core') }}"
+                                    class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('core') ? 'active' : '' }}"
+                                    data-bs-placement="right" data-bs-title="Surat">
+                                    <i class="bi bi-diagram-3-fill me-3"></i>
+                                    <span class="submenu-title">Core Potential</span>
+                                </a>
+                                <a href="{{ url('/cme') }}"
+                                    class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('cme') ? 'active' : '' }}"
+                                    data-bs-placement="right" data-bs-title="Surat">
+                                    <i class="bi bi-pie-chart-fill me-3"></i>
+                                    <span class="submenu-title">CME Potential</span>
+                                </a>
+                                <a href="{{ url('/bbm') }}"
+                                    class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('bbm') ? 'active' : '' }}"
+                                    data-bs-placement="right" data-bs-title="Surat">
+                                    <i class="bi bi-graph-up-arrow me-3"></i>
+                                    <span class="submenu-title">BBM</span>
+                                </a>
+
+                                <h6 class="text-uppercase text-gray-700 mt-3 mb-1 small-text">Assets & Resources</h6>
                                 <a href="{{ url('/sto') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('sto') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
@@ -84,6 +107,7 @@
                                 </a>
 
                                 @if (Session::get('user_role') == 0)
+                                    <h6 class="text-uppercase text-gray-700 mt-3 mb-1 small-text">Users Management</h6>
                                     <a href="{{ url('/viewuser') }}"
                                         class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('viewuser') ? 'active' : '' }}"
                                         data-bs-placement="right" data-bs-title="Surat">
@@ -91,24 +115,6 @@
                                         <span class="submenu-title">User</span>
                                     </a>
                                 @endif
-                                <a href="{{ url('/core') }}"
-                                    class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('core') ? 'active' : '' }}"
-                                    data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-diagram-3-fill me-3"></i>
-                                    <span class="submenu-title">Core Potential</span>
-                                </a>
-                                <a href="{{ url('/cme') }}"
-                                    class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('cme') ? 'active' : '' }}"
-                                    data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-pie-chart-fill me-3"></i>
-                                    <span class="submenu-title">CME Potential</span>
-                                </a>
-                                <a href="{{ url('/bbm') }}"
-                                    class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('bbm') ? 'active' : '' }}"
-                                    data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-graph-up-arrow me-3"></i>
-                                    <span class="submenu-title">BBM</span>
-                                </a>
                                 <a href="{{ route('logout') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('logout') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Logout">
