@@ -63,6 +63,7 @@ aside.bd-sidebar .sidebar-body .list-group-item.active {
 
 aside.bd-sidebar .sidebar-body .list-group-item {
     background-color: #7c1f1a !important;
+    width: 280px;
 }
 
 .bd-main {

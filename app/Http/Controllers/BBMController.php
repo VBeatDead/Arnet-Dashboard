@@ -18,21 +18,6 @@ class BBMController extends Controller
             ->where('type', 'sto')
             ->pluck('subtype', 'id');
 
-        // Fetch the data for the table view, ensuring no duplicate STO entries
-        $bbmDataQuery = DB::table('bbm')
-            ->join('dropdowns', 'bbm.sto_id', '=', 'dropdowns.id')
-            ->select('bbm.Lokasi', 'dropdowns.subtype as STO', 'bbm.BBM_L', 'bbm.UPDATED_AT')
-            ->where('bbm.Lokasi', 'MALANG')
-            ->whereIn('bbm.sto_id', $uniqueStos->keys())
-            ->orderBy('bbm.UPDATED_AT', 'desc');
-
-        // Filter data by selected STO ID if provided
-        if ($stoId) {
-            $bbmDataQuery->where('bbm.sto_id', $stoId);
-        }
-
-        $bbmData = $bbmDataQuery->get();
-
         // Fetch data for the line chart, grouped by date and STO ID
         $chartData = DB::table('bbm')
             ->select(DB::raw('sto_id, DATE(UPDATED_AT) as date, SUM(BBM_L) as total_bbm'))
@@ -41,14 +26,15 @@ class BBMController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
+        // Filter unique STOs that have data
+        $stosWithData = $chartData->pluck('sto_id')->unique();
+
         // Pass data to the view
         return view('bbm.index', [
-            'bbmData' => $bbmData,
             'chartData' => $chartData,
-            'availableStos' => $uniqueStos,
+            'availableStos' => $uniqueStos->only($stosWithData),
             'currentStoId' => $stoId
         ]);
-    
     }
 
     public function create()
@@ -67,7 +53,7 @@ class BBMController extends Controller
         }
         $request->file('file')->storeAs('bbm', $fileName, 'public');
         shell_exec("python ../resources/pyScript/bbm.py");
-    
+
         return redirect()->route('bbm.index')->with('success', 'File berhasil diupload.');
     }
 }

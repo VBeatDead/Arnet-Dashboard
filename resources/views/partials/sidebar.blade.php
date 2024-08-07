@@ -1,4 +1,4 @@
-<aside class="bd-sidebar">
+<aside class="bd-sidebar scrp">
     <div class="offcanvas-lg offcanvas-start text-bg-dark pb-5 scrp" id="sidebar">
         <!-- SIDEBAR HEADER -->
         <div class="sidebar-header p-3 position-sticky top-0 bg-dark z-3 d-block d-lg-none">
