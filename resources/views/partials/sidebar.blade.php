@@ -100,7 +100,7 @@
                                 <a href="{{ url('/cme') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('cme') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
-                                    <i class="bi bi-graph-up-arrow me-3"></i>
+                                    <i class="bi bi-pie-chart-fill me-3"></i>
                                     <span class="submenu-title">CME Potential</span>
                                 </a>
                                 <a href="{{ url('/bbm') }}"
@@ -121,7 +121,6 @@
                     <!-- END OF ADMIN SUBMENU -->
                 </div>
                 <!-- END OF ADMIN MENU -->
-                <!-- Additional menus like PAGES MENU, ERRORS MENU, etc. can be added here in a similar fashion -->
             </div>
         </div>
         <!-- END OF SIDEBAR BODY -->

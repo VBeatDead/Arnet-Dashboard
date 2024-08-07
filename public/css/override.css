@@ -38,7 +38,7 @@
 .dsc {
     background-color: #00000091;
 }
-/* TH Align center */
+
 th {
     text-align: center !important;
 }
@@ -47,7 +47,6 @@ td {
     text-align: center !important;
 }
 
-/* Apply custom variables to sidebar */
 #sidebar {
     background-color: var(--sidebar-background-color) !important;
 }
@@ -118,23 +117,6 @@ aside.bd-sidebar .sidebar-body .list-group-item {
     font-style: italic;
     font-size: 1.5ch;
     font-weight: bold;
-}
-
-.bg-dark {
-    --bs-bg-opacity: 1;
-    background-color: #000000 !important;
-}
-
-.pagination {
-    --bs-pagination-color: #7c1f1a !important;
-    --bs-pagination-active-bg: #7c1f1a !important;
-}
-
-.bi-arrow-down-square-fill {
-    color: #31d2f2;
-}
-.img {
-    color: #157347;
 }
 
 .container-chart {

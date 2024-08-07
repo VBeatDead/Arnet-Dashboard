@@ -33,12 +33,19 @@ class RoomController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        $existingRoom = Dropdown::where('type', 'room')->where('subtype', $request->name)->first();
+        if ($existingRoom) {
+            return redirect()->back()->with('error', 'Room already exists.')->withInput();
+        }
+
         $room = new Dropdown;
         $room->type = 'room';
         $room->subtype = $request->name;
         $room->save();
-        return redirect('/room')->with('success', 'STO successfully created');
+
+        return redirect('/room')->with('success', 'Room successfully created.');
     }
+
 
     public function edit($id)
     {

@@ -10,15 +10,12 @@ class BBMController extends Controller
 {
     public function index(Request $request)
     {
-        // Get the selected STO ID from the request or default to the first available STO ID
         $stoId = $request->input('sto_id', null);
 
-        // Fetch unique STOs for the table view, avoiding duplicates
         $uniqueStos = DB::table('dropdowns')
             ->where('type', 'sto')
             ->pluck('subtype', 'id');
 
-        // Fetch data for the line chart, grouped by date and STO ID
         $chartData = DB::table('bbm')
             ->select(DB::raw('sto_id, DATE(UPDATED_AT) as date, SUM(BBM_L) as total_bbm'))
             ->whereIn('sto_id', $uniqueStos->keys())
@@ -26,16 +23,21 @@ class BBMController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
-        // Filter unique STOs that have data
         $stosWithData = $chartData->pluck('sto_id')->unique();
+        $filteredStos = $uniqueStos->only($stosWithData);
 
-        // Pass data to the view
+        $sequentialStos = $filteredStos->values()->mapWithKeys(function ($name, $index) use ($filteredStos) {
+            $stoId = $filteredStos->keys()->get($index);
+            return [$index => ['id' => $stoId, 'name' => $name]];
+        });
+
         return view('bbm.index', [
             'chartData' => $chartData,
-            'availableStos' => $uniqueStos->only($stosWithData),
+            'availableStos' => $sequentialStos,
             'currentStoId' => $stoId
         ]);
     }
+
 
     public function create()
     {
