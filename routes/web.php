@@ -13,6 +13,7 @@ use App\Http\Controllers\CoreController;
 use App\Http\Controllers\CmeController;
 use App\Http\Controllers\TopologyController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\BBMController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -111,3 +112,7 @@ Route::post('/storecme', [CmeController::class, 'store'])->name('storecme');
 Route::delete('/cme/{id}', [CmeController::class, 'destroy'])->name('deletecme')->middleware(CheckUserRole::class . ':0');
 Route::get('/cme/{id}/edit', [CmeController::class, 'edit'])->name('cme.edit')->middleware(RedirectIfNotAuthenticated::class);
 Route::put('/cme/{id}', [CmeController::class, 'update'])->name('cme.update');
+
+//bbm
+Route::get('/bbm', [BBMController::class, 'index'])->name('bbm.index')->middleware(RedirectIfNotAuthenticated::class);
+Route::resource('bbm', BBMController::class)->middleware(RedirectIfNotAuthenticated::class);

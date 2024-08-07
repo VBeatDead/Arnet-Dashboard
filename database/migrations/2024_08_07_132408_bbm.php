@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('bbm', function (Blueprint $table) {
             $table->id();
             $table->string('Lokasi')->nullable();
-            $table->string('STO')->nullable();
+            $table->unsignedBigInteger('sto_id');
             $table->integer('BBM_L')->nullable();
             $table->timestamp('UPDATED_AT')->nullable();
+
+            $table->foreign('sto_id')->references('id')->on('dropdowns')->onDelete('cascade');
         });
     }
 

@@ -103,6 +103,12 @@
                                     <i class="bi bi-graph-up-arrow me-3"></i>
                                     <span class="submenu-title">CME Potential</span>
                                 </a>
+                                <a href="{{ url('/bbm') }}"
+                                    class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('bbm') ? 'active' : '' }}"
+                                    data-bs-placement="right" data-bs-title="Surat">
+                                    <i class="bi bi-graph-up-arrow me-3"></i>
+                                    <span class="submenu-title">BBM</span>
+                                </a>
                                 <a href="{{ route('logout') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('logout') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Logout">
