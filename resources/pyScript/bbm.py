@@ -1,11 +1,9 @@
-import numpy as np
 import pandas as pd
 import pymysql
-import argparse
 import os
 
 
-file_xlsx = '../storage/app/public/bbm/bbm.xlsx'
+file_xlsx = './storage/app/public/bbm/bbm.xlsx'
 file_xls = '../storage/app/public/bbm/bbm.xls'
 
 # Cek apakah file ada
@@ -43,6 +41,7 @@ df = pd.read_excel(file_path, engine=engine)
 # Process data
 df[['Lokasi', 'STO']] = df['Lokasi'].str.split(' - ', expand=True)
 df.sort_values(by='UPDATED_AT')
+df = df[df['Lokasi'] == 'MALANG']
 data = df[['Lokasi', 'STO', 'BBM_L','UPDATED_AT']]
 
 
