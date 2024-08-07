@@ -36,7 +36,7 @@
                             <thead class="table-secondary text-center">
                                 <tr>
                                     <th>No</th>
-                                    <th>STO Name</th>
+                                    <th>STO</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
