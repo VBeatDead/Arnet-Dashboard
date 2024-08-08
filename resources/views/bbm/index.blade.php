@@ -41,23 +41,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($availableStos as $index => $sto)
-                                    <tr data-bs-toggle="collapse" data-bs-target="#collapse-{{ $index }}"
-                                        aria-expanded="false" aria-controls="collapse-{{ $index }}"
-                                        style="cursor: pointer">
-                                        <td class="text-center">{{ $index + 1 }}</td>
-                                        <td>{{ $sto['name'] }}</td>
-                                        <td class="text-center"><i class="bi bi-chevron-down"></i></td>
+                                @if (count($availableStos) > 0)
+                                    @foreach ($availableStos as $index => $sto)
+                                        <tr data-bs-toggle="collapse" data-bs-target="#collapse-{{ $index }}"
+                                            aria-expanded="false" aria-controls="collapse-{{ $index }}"
+                                            style="cursor: pointer">
+                                            <td class="text-center">{{ $index + 1 }}</td>
+                                            <td>{{ $sto['name'] }}</td>
+                                            <td class="text-center"><i class="bi bi-chevron-down"></i></td>
+                                        </tr>
+                                        <tr id="collapse-{{ $index }}" class="collapse">
+                                            <td colspan="3">
+                                                <div class="chart-container d-flex justify-content-center align-items-center"
+                                                    style="height:70vh; width:100%">
+                                                    <div id="chart-{{ $index }}" style="height:100%; width:100%"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="3" class="text-center">No data available in table</td>
                                     </tr>
-                                    <tr id="collapse-{{ $index }}" class="collapse">
-                                        <td colspan="3">
-                                            <div class="chart-container d-flex justify-content-center align-items-center"
-                                                style="height:70vh; width:100%">
-                                                <div id="chart-{{ $index }}" style="height:100%; width:100%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @endif
+                            </tbody>
                             </tbody>
                         </table>
                     </div>
