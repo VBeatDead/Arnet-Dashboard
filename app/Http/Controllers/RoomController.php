@@ -57,6 +57,11 @@ class RoomController extends Controller
     {
         $room = Dropdown::find($id);
 
+        $existingRoom = Dropdown::where('type', 'room')->where('subtype', $request->name)->first();
+        if ($existingRoom) {
+            return redirect()->back()->with('error', 'Room already exists.')->withInput();
+        }
+
         if ($room) {
             $room->subtype = $request->name;
             $room->save();

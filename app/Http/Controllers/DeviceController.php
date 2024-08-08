@@ -34,7 +34,6 @@ class DeviceController extends Controller
         }
 
         $exists = Dropdown::where('type', 'topology')->where('subtype', $request->name)->exists();
-
         if ($exists) {
             return redirect()->back()->with('errors', ['The Topology location already exists.'])->withInput();
         }
@@ -55,6 +54,11 @@ class DeviceController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $exists = Dropdown::where('type', 'topology')->where('subtype', $request->name)->exists();
+        if ($exists) {
+            return redirect()->back()->with('errors', ['The Topology location already exists.'])->withInput();
         }
 
         $device = Dropdown::find($id);

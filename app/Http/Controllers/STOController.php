@@ -64,6 +64,11 @@ class STOController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        $exists = Dropdown::where('type', 'sto')->where('subtype', $request->name)->exists();
+        if ($exists) {
+            return redirect()->back()->with('errors', ['The STO location already exists.'])->withInput();
+        }
+
         $sto = Dropdown::find($id);
         if ($sto) {
             $sto->subtype = $request->name;
