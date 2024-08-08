@@ -36,7 +36,7 @@
                     <label for="file" class="block text-lg font-medium text-gray-700 mb-2">Upload File</label>
                     <div x-data="{ file: null }" class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                         <div class="relative w-full flex items-center justify-center border-2 border-gray-300 rounded-lg">
-                            <input type="file" id="file" name="file" accept=".xlsx, .xls" x-ref="fileInput"
+                            <input type="file" id="file" name="file" accept=".xlsx" x-ref="fileInput"
                                 @change="file = $refs.fileInput.files[0]"
                                 class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                             <p class="text-gray-500 pointer-events-none p-20" x-show="!file">Drag & Drop file here or click
@@ -52,7 +52,7 @@
                             </template>
                         </div>
                     </div>
-                    <div class="text-sm text-gray-500 mt-2">File type must be Excel format (.xlsx, .xls).</div>
+                    <div class="text-sm text-gray-500 mt-2">File type must be Excel format (.xlsx).</div>
                 </div>
             </div>
 

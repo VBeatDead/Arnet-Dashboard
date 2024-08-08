@@ -107,7 +107,7 @@ class CoreController extends Controller
     {
 
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls|max:2048',
+            'file' => 'required|mimes:xlsx|max:2048',
         ]);
         $fileName = 'Core.' . $request->file('file')->getClientOriginalExtension();
         if (Storage::disk('public')->exists('core/' . $fileName)) {

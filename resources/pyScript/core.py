@@ -38,11 +38,9 @@ else:
 
 # Membaca nama-nama sheet
 excel_file = pd.ExcelFile(file_path, engine=engine)
-if 'Ruas (1)' not in excel_file.sheet_names:
-    raise ValueError("Sheet named 'Ruas' not found in the Excel file.")
 
 # Membaca sheet "Ruas"
-df = pd.read_excel(file_path, sheet_name='Ruas (1)', engine=engine)
+df = pd.read_excel(file_path, engine=engine)
 
 # Process data
 grouped_df = df['Ruas'].value_counts().reset_index()

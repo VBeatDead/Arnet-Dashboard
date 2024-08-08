@@ -70,7 +70,7 @@ class CmeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls|max:2048',
+            'file' => 'required|mimes:xlsx|max:2048',
         ]);
         $fileName = 'Cme.' . $request->file('file')->getClientOriginalExtension();
         if (Storage::disk('public')->exists('cme/' . $fileName)) {

@@ -46,7 +46,7 @@
                     <div id="submenu-admin" class="accordion-collapse collapse show">
                         <div class="accordion-body p-0 px-3">
                             <div class="list-group list-group-flush">
-                                <h6 class="text-uppercase text-gray-700 mt-1 mb-1 mr-9 small-text">Dashboard</h6>
+                                <h6 class="text-uppercase text-white mt-1 mb-1 mr-9 small-text">Dashboard</h6>
                                 <a href="{{ url('/denah') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('denah') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Dashboard">
@@ -66,7 +66,7 @@
                                     <span class="submenu-title">Asset Idle</span>
                                 </a>
 
-                                <h6 class="text-uppercase text-gray-700 mt-3 mb-1 small-text">Reports</h6>
+                                <h6 class="text-uppercase text-white mt-3 mb-1 small-text">Reports</h6>
                                 <a href="{{ url('/core') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('core') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
@@ -86,7 +86,7 @@
                                     <span class="submenu-title">BBM</span>
                                 </a>
 
-                                <h6 class="text-uppercase text-gray-700 mt-3 mb-1 small-text">Assets & Resources</h6>
+                                <h6 class="text-uppercase text-white mt-3 mb-1 small-text">Assets & Resources</h6>
                                 <a href="{{ url('/sto') }}"
                                     class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('sto') ? 'active' : '' }}"
                                     data-bs-placement="right" data-bs-title="Surat">
@@ -107,7 +107,7 @@
                                 </a>
 
                                 @if (Session::get('user_role') == 0)
-                                    <h6 class="text-uppercase text-gray-700 mt-3 mb-1 small-text">Users Management</h6>
+                                    <h6 class="text-uppercase text-white mt-3 mb-1 small-text">Users Management</h6>
                                     <a href="{{ url('/viewuser') }}"
                                         class="list-group-item list-group-item-action border-0 mb-1 text-bg-dark {{ Request::is('viewuser') ? 'active' : '' }}"
                                         data-bs-placement="right" data-bs-title="Surat">
